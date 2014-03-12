@@ -1,0 +1,65 @@
+% Глобальные параметры
+\usepackage[T2A]{fontenc}  % кириллический набор символов
+\usepackage{cmap} % русские буквы в поиске PDF
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}  % настройки для русской типографики и переносов
+\usepackage{fullpage, anysize} %http://texdoc.net/texmf-dist/doc/latex/preprint/fullpage.pdf
+%Full page with small margins. 
+\usepackage{verbatim}
+%Package to display text as in editor.
+%\usepackage{minitoc} 
+\usepackage{mathtext} 
+%maybe without l. Russian letters in math
+\usepackage{graphicx}
+\usepackage{caption2}
+%Some new ways to make caption
+\usepackage{amssymb,amsmath} 
+%American mathematic styles.
+\usepackage{hhline}
+%Complex tables making
+%texnames - Display TeX.
+%subfigure 
+\usepackage{multicol, wrapfig}%multi column text and wrap images.
+\renewcommand{\captionlabeldelim}{.}%doesn't work in caption package.
+% \sloppy
+% This declaration makes TeX less fussy about line breaking. This can prevent overfull boxes, but may leave too much space between words.
+\raggedbottom
+%Makes all pages the height of the text on that page. No extra vertical space is added.
+
+\newcommand{\limp}{\Rightarrow}
+\newcommand{\leqs}{=}
+\newcommand{\lors}{\|}
+\newcommand{\lands}{\&\&}
+
+% Библиография: обычный размер!
+\makeatletter
+\renewenvironment{thebibliography}[1]{%
+  \@xp\section\@xp*\@xp{\bibname}%
+  \normalfont\labelsep .5em\relax
+  \renewcommand\theenumiv{\arabic{enumiv}}\let\p@enumiv\@empty
+  \list{\@biblabel{\theenumiv}}{\settowidth\labelwidth{\@biblabel{#1}}%
+    \leftmargin\labelwidth \advance\leftmargin\labelsep
+    \usecounter{enumiv}}%
+  \sloppy \clubpenalty\@M \widowpenalty\clubpenalty
+  \sfcode`\.=\@m
+}
+\makeatother
+
+\endinput
+
+%\begin{thebibliography}{2005}
+%
+%\bibitem{texbook} D.~E.~Knuth. UML: Основы. 2002. Перевод с английского: СПБ. ~--- 192с.
+%
+%
+%\bibitem{manual} B Cloves Carneiro Jr., and Rida Al Barazi. Beginning Rails 3. 2010. ~--- 403c.
+%
+%\bibitem{roganov}
+%Е.А. Роганов
+%{\em Название книги.}~---
+%М., Издательство, 2001.
+%Что-либо ещё.
+%
+%\end{thebibliography}
+%
+%\endinput
