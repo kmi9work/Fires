@@ -101,7 +101,7 @@ public:
     double m,a;
 
 };
-
+/*
 class NewData: public QwtSyntheticPointData
 {
 public:
@@ -112,7 +112,7 @@ public:
     }
     double m,a;
 };
-
+*/
 
 void Plot::drawDots(QVector< QVector<struct numCluster> > data, double n, double k, int index, int size, int number)
 {
@@ -201,11 +201,7 @@ void Plot::drawGauss(double m, double a, int type, int i)
     int j;
     QwtPlotCurve *curve = new QwtPlotCurve("y = gauss(x)");
     if (type == 0){
-        if (i == 2){
-            curve->setData(new NewData(m, a));
-        }else{
-            curve->setData(new GaussData(m, a));
-        }
+        curve->setData(new GaussData(m, a));
     }else if (type == 1){
         curve->setData(new ExpData(m, a));
     }else{

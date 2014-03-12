@@ -26,6 +26,10 @@ FPWorth::FPWorth(QWidget *parent) :
     layout = new QHBoxLayout( ui->plotWidget );
     layout->setContentsMargins( 0, 0, 0, 0 );
     layout->addWidget( plot );
+    epsf = ui->epsfEdit->text().toDouble();
+    epsx = ui->epsxEdit->text().toDouble();
+    maxits = ui->maxitsEdit->text().toDouble();
+    diffstep = ui->diffstepEdit->text().toDouble();
 }
 
 
@@ -491,6 +495,10 @@ void FPWorth::on_makeRulesAprioriButton_clicked()
 // -- Plot --
 void FPWorth::on_makePlotButton_clicked(){
     int i,j;
+    epsf = ui->epsfEdit->text().toDouble();
+    epsx = ui->epsxEdit->text().toDouble();
+    maxits = ui->maxitsEdit->text().toDouble();
+    diffstep = ui->diffstepEdit->text().toDouble();
     j = 0;
     fs = approxGauss(data);
     plot->clear();
@@ -538,13 +546,13 @@ void function_cx_NE_func(const alglib::real_1d_array &c, const alglib::real_1d_a
     // where x is a position on X-axis and c is adjustable parameter
     func = 1/(1 + exp(c[1]*(x[0]-c[0])));
 }
-
+/*
 void function_NEW_func(const alglib::real_1d_array &c, const alglib::real_1d_array &x, double &func, void *ptr)
 {
     // this callback calculates f(c,x)=exp(-c0*sqr(x0))
     // where x is a position on X-axis and c is adjustable parameter
     func = 1/(1+fabs(pow((x[0]-c[0])/c[1],2*c[1])));
-}
+}*/
 
 
 double funcNorm(double x, double k, double mu = 0){
@@ -561,13 +569,9 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
     QVector< QVector<alglib::real_1d_array> > cs; //[0] = mu, [1] = sigma
     QVector< QVector<double> > ks;
     QVector< QVector<int> > indexes;
-    double epsf = 0;
-    double epsx = 0.000001;
-    alglib::ae_int_t maxits = 0;
     alglib::ae_int_t info;
     alglib::lsfitstate state;
     alglib::lsfitreport rep;
-    double diffstep = 0.0001;
     int size = 0;
     int i,j,l;
     double a,b,m;
@@ -618,7 +622,7 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
             for (l = 0; l < xs[i][j].rows(); l++){
                 a = xs[i][j](l,0);
                 if (i == 0){
-                    std::cout << j << "a = " << a << std::endl;
+                    //std::cout << j << "a = " << a << std::endl;
                 }
                 m = means[i][j];
                 if (max_k < fabs(a - m)) max_k = fabs(a - m);
@@ -642,14 +646,14 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
                 }
 
             }
-            cs[i][j][0] = means[i][j];
+            cs[i][j][0] = means[i][j] + 10;
             cs[i][j][1] = 1; //?
             // Прогнать алгоритм. Получить cs.
-            if (i == 2 && j > 0 && j < lvar_size - 1){
+            /*if (i == 2 && j > 0 && j < lvar_size - 1){
                 epsf = 1;
             }else{
                 epsf = 0;
-            }
+            }*/
             alglib::lsfitcreatef(xs[i][j], ys[i][j], cs[i][j], diffstep, state);
             alglib::lsfitsetcond(state, epsf, epsx, maxits);
             if (j == 0){
@@ -660,14 +664,13 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
                 alglib::lsfitfit(state, function_cx_E_func);
             }else{
                 ret[i][j].type = 0;
-                if (i == 2){
-                    alglib::lsfitfit(state, function_NEW_func);
-                }else{
-                    alglib::lsfitfit(state, function_cx_G_func);
-                }
+                alglib::lsfitfit(state, function_cx_G_func);
             }
             alglib::lsfitresults(state, info, cs[i][j], rep);
             ret[i][j].mu = cs[i][j][0];
+            std::cout << j << " before = " << means[i][j] + 10;
+            std::cout << "; after = " << cs[i][j][0];
+            std::cout << "; Should be ~ " << means[i][j] << std::endl;
             ret[i][j].a = cs[i][j][1];
         }
     }
@@ -1003,8 +1006,13 @@ void FPWorth::on_lvarPlotButton_clicked()
 {
 
     int i,j;
+    epsf = ui->epsfEdit->text().toDouble();
+    epsx = ui->epsxEdit->text().toDouble();
+    maxits = ui->maxitsEdit->text().toDouble();
+    diffstep = ui->diffstepEdit->text().toDouble();
     plot->clear();
     j = ui->plotNamesCombo->currentIndex();
+    fs = approxGauss(data);
     for (i = 0; i < lvar_size; i++){
         plot->drawGauss(fs[j][i].mu, fs[j][i].a, fs[j][i].type, i);
         plot->drawDots(data, means[j][i], fs[j][i].k, i, lvar_size, j);

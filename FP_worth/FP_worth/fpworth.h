@@ -116,6 +116,10 @@ private:
     Plot *plot;
     QHBoxLayout *layout;
     QVector< QVector<struct membershipFunction> > fs;
+    double epsf; // Параметры аппроксимации.
+    double epsx;
+    alglib::ae_int_t maxits;
+    double diffstep;
 
     void printQVector(QVector<QVector<struct numCluster> > v, int start_x, int start_y);
 
