@@ -1023,3 +1023,6 @@ void FPWorth::on_clearPlotButton_clicked()
 {
     plot->clear();
 }
+
+//0.000000000000001 -- 3
+//	0.0000000000001 -- 2
