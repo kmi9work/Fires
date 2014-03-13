@@ -125,7 +125,7 @@ void MainWindow::on_makePlotButton_clicked()
 
     plot->clear();
     plot->drawDots(data, 0);
-    plot->drawGauss(-16.46,sigma,0,0);
+    plot->drawGauss(0.99,sigma,0,0);
 
     x.setlength(data.size(),1);
     y.setlength(data.size());
@@ -134,8 +134,8 @@ void MainWindow::on_makePlotButton_clicked()
         x(i,0) = data[i][0];
         y[i] = data[i][1];
     }
-    c[0] = 0;
-    c[1] = 0;
+    c[0] = 0.99;
+    c[1] = 0.084107324;
     alglib::lsfitcreatef(x, y, c, diffstep, state);
     alglib::lsfitsetcond(state, epsf, epsx, maxits);
     alglib::lsfitfit(state, function_cx_G_func);
@@ -143,5 +143,9 @@ void MainWindow::on_makePlotButton_clicked()
     ui->muLabel->setText(QString::number(c[0]));
     ui->sigmaLabel->setText(QString::number(c[1]));
     plot->drawGauss(c[0],c[1],0,1);
-
+    alglib::lsfitcreatef(x, y, c, diffstep, state);
+    alglib::lsfitsetcond(state, epsf, epsx, maxits);
+    alglib::lsfitfit(state, function_cx_G_func);
+    alglib::lsfitresults(state, info, c, rep);
+    plot->drawGauss(c[0],c[1],0,2);
 }

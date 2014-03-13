@@ -559,6 +559,17 @@ double funcNorm(double x, double k, double mu = 0){
     return (1 - (fabs(x - mu))/k);
 }
 
+double dispersio(alglib::real_1d_array x){
+    int i;
+    double sum = 0;
+    double sq_sum = 0;
+    for (i = 0; i < x.length(); i++){
+        sum += x[i];
+        sq_sum += x[i]*x[i];
+    }
+    return (sq_sum - sum*sum/x.length())/x.length();
+}
+
 QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVector<struct numCluster> > data)
 {
     //double *mu, double *sigma, double k, int index)
@@ -646,8 +657,8 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
                 }
 
             }
-            cs[i][j][0] = means[i][j] + 10;
-            cs[i][j][1] = 1; //?
+            cs[i][j][0] = means[i][j];
+            cs[i][j][1] = dispersio(ys[i][j]);
             // Прогнать алгоритм. Получить cs.
             /*if (i == 2 && j > 0 && j < lvar_size - 1){
                 epsf = 1;
@@ -668,9 +679,9 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
             }
             alglib::lsfitresults(state, info, cs[i][j], rep);
             ret[i][j].mu = cs[i][j][0];
-            std::cout << j << " before = " << means[i][j] + 10;
+            /*std::cout << j << " before = " << means[i][j] + 10;
             std::cout << "; after = " << cs[i][j][0];
-            std::cout << "; Should be ~ " << means[i][j] << std::endl;
+            std::cout << "; Should be ~ " << means[i][j] << std::endl;*/
             ret[i][j].a = cs[i][j][1];
         }
     }
