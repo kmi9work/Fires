@@ -657,8 +657,18 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
                 }
 
             }
-            cs[i][j][0] = means[i][j];
-            cs[i][j][1] = dispersio(ys[i][j]);
+
+            if (j == 0){
+                cs[i][j][0] = means[i][j] + ks[i][j]/2; // +- k/2
+                cs[i][j][1] = -5 / ks[i][j]; // -?
+            }else if (j == lvar_size - 1){
+                cs[i][j][0] = means[i][j] - ks[i][j]/2; // +- k/2
+                cs[i][j][1] = 5 / ks[i][j]; // -?
+            }else{
+                cs[i][j][0] = means[i][j]; // +- k/2
+                cs[i][j][1] = dispersio(ys[i][j]);
+            }
+
             // Прогнать алгоритм. Получить cs.
             /*if (i == 2 && j > 0 && j < lvar_size - 1){
                 epsf = 1;
@@ -1026,6 +1036,7 @@ void FPWorth::on_lvarPlotButton_clicked()
     fs = approxGauss(data);
     for (i = 0; i < lvar_size; i++){
         plot->drawGauss(fs[j][i].mu, fs[j][i].a, fs[j][i].type, i);
+        std::cout << ; // !!!
         plot->drawDots(data, means[j][i], fs[j][i].k, i, lvar_size, j);
     }
 }
