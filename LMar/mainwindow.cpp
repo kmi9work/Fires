@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "alglib/interpolation.h"
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -142,6 +143,7 @@ void MainWindow::on_makePlotButton_clicked()
     alglib::lsfitresults(state, info, c, rep);
     ui->muLabel->setText(QString::number(c[0]));
     ui->sigmaLabel->setText(QString::number(c[1]));
+    std::cout << rep.rmserror << std::endl;
     plot->drawGauss(c[0],c[1],0,1);
     alglib::lsfitcreatef(x, y, c, diffstep, state);
     alglib::lsfitsetcond(state, epsf, epsx, maxits);

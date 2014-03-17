@@ -4,6 +4,7 @@
 #include <iostream>
 #include "alglib/dataanalysis.h"
 #include "alglib/interpolation.h"
+#include <stdlib.h>     /* srand, rand */
 
 
 #define FIRE_COUNT 3
@@ -585,8 +586,10 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
     alglib::lsfitreport rep;
     int size = 0;
     int i,j,l;
+    double err, iter = 0, iters = 10;
     double a,b,m;
     double max_k;
+    double before_mu, locality = 2.5;
     xs.resize(cols+1);
     ys.resize(cols+1);
     cs.resize(cols+1);
@@ -658,6 +661,7 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
 
             }
 
+            //--------
             if (j == 0){
                 cs[i][j][0] = means[i][j] + ks[i][j]/2; // +- k/2
                 cs[i][j][1] = -5 / ks[i][j]; // -?
@@ -668,13 +672,6 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
                 cs[i][j][0] = means[i][j]; // +- k/2
                 cs[i][j][1] = dispersio(ys[i][j]);
             }
-
-            // Прогнать алгоритм. Получить cs.
-            /*if (i == 2 && j > 0 && j < lvar_size - 1){
-                epsf = 1;
-            }else{
-                epsf = 0;
-            }*/
             alglib::lsfitcreatef(xs[i][j], ys[i][j], cs[i][j], diffstep, state);
             alglib::lsfitsetcond(state, epsf, epsx, maxits);
             if (j == 0){
@@ -688,10 +685,46 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
                 alglib::lsfitfit(state, function_cx_G_func);
             }
             alglib::lsfitresults(state, info, cs[i][j], rep);
+            err = rep.rmserror;
+
+            //========
+            iter = 0;
+            while (err > 0.1 && iter < iters){
+                if (j == 0){
+                    cs[i][j][0] = means[i][j] + ks[i][j]/2 + (((rand()%100)/100.0)*locality*2 - locality); // +- k/2
+                    before_mu = cs[i][j][0];
+                    cs[i][j][1] = -5 / ks[i][j] + (((rand()%100)/100.0)*locality*2 - locality); // -?
+                }else if (j == lvar_size - 1){
+                    cs[i][j][0] = means[i][j] - ks[i][j]/2 + (((rand()%100)/100.0)*locality*2 - locality); // +- k/2
+                    cs[i][j][1] = 5 / ks[i][j] + (((rand()%100)/100.0)*locality*2 - locality); // -?
+                }else{
+                    cs[i][j][0] = means[i][j] + (((rand()%100)/100.0)*locality*2 - locality); // +- k/2
+                    cs[i][j][1] = dispersio(ys[i][j]) + (((rand()%100)/100.0)*locality*2 - locality);
+                }
+                alglib::lsfitcreatef(xs[i][j], ys[i][j], cs[i][j], diffstep, state);
+                alglib::lsfitsetcond(state, epsf, epsx, maxits);
+                if (j == 0){
+                    ret[i][j].type = 2;
+                    alglib::lsfitfit(state, function_cx_NE_func);
+                }else if (j == lvar_size - 1){
+                    ret[i][j].type = 1;
+                    alglib::lsfitfit(state, function_cx_E_func);
+                }else{
+                    ret[i][j].type = 0;
+                    alglib::lsfitfit(state, function_cx_G_func);
+                }
+                alglib::lsfitresults(state, info, cs[i][j], rep);
+                err = rep.rmserror;
+                iter++;
+            }
             ret[i][j].mu = cs[i][j][0];
             /*std::cout << j << " before = " << means[i][j] + 10;
             std::cout << "; after = " << cs[i][j][0];
-            std::cout << "; Should be ~ " << means[i][j] << std::endl;*/
+            */
+            if (iter == iters){
+                std::cout << i << "," << j << "; err = " << rep.rmserror << std::endl;
+            }
+
             ret[i][j].a = cs[i][j][1];
         }
     }
@@ -1033,10 +1066,12 @@ void FPWorth::on_lvarPlotButton_clicked()
     diffstep = ui->diffstepEdit->text().toDouble();
     plot->clear();
     j = ui->plotNamesCombo->currentIndex();
-    fs = approxGauss(data);
+    //fs = approxGauss(data);
     for (i = 0; i < lvar_size; i++){
+        std::cout << i << " before = " << means[j][i];
+        std::cout << "; after = " << fs[j][i].mu << std::endl;
         plot->drawGauss(fs[j][i].mu, fs[j][i].a, fs[j][i].type, i);
-        std::cout << ; // !!!
+        //std::cout << ; // !!!
         plot->drawDots(data, means[j][i], fs[j][i].k, i, lvar_size, j);
     }
 }
@@ -1048,3 +1083,4 @@ void FPWorth::on_clearPlotButton_clicked()
 
 //0.000000000000001 -- 3
 //	0.0000000000001 -- 2
+// 0.0000000000000001
