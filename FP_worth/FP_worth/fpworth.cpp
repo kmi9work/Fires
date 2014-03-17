@@ -586,7 +586,7 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
     alglib::lsfitreport rep;
     int size = 0;
     int i,j,l;
-    double err, iter = 0, iters = 10;
+    double err, iter = 0, iters = 1000;
     double a,b,m;
     double max_k;
     double before_mu, locality = 2.5;

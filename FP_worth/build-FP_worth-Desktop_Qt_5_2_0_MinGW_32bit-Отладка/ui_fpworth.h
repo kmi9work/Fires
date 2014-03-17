@@ -1005,7 +1005,7 @@ public:
 
         retranslateUi(FPWorth);
 
-        tabWidget->setCurrentIndex(5);
+        tabWidget->setCurrentIndex(6);
         inputComboBox->setCurrentIndex(1);
 
 
