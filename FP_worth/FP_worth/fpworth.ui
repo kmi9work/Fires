@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>FPWorth</string>
+   <string>Информационная система прогнозирования природных лесных пожаров</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="horizontalLayoutWidget">
@@ -20,7 +20,7 @@
       <x>0</x>
       <y>-5</y>
       <width>1021</width>
-      <height>581</height>
+      <height>680</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_12">
@@ -39,7 +39,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>6</number>
+        <number>0</number>
        </property>
        <property name="tabsClosable">
         <bool>false</bool>
@@ -64,7 +64,7 @@
                <item>
                 <widget class="QPushButton" name="openNormalButton">
                  <property name="text">
-                  <string>Open normal file</string>
+                  <string>Открыть файл с численными данными</string>
                  </property>
                 </widget>
                </item>
@@ -95,7 +95,7 @@
                <item>
                 <widget class="QPushButton" name="openFuzzyButton">
                  <property name="text">
-                  <string>Open fuzzy file</string>
+                  <string>Открыть файл с нечёткими данными</string>
                  </property>
                 </widget>
                </item>
@@ -240,14 +240,168 @@
                </item>
                <item>
                 <property name="text">
-                 <string>Новый элемент</string>
+                 <string>Скорость ветра</string>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Имя терма</string>
+                 </property>
+                 <property name="text">
+                  <string>V</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 5</string>
+                 </property>
+                 <property name="text">
+                  <string>Очень большая</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 4</string>
+                 </property>
+                 <property name="text">
+                  <string>Большая</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 3</string>
+                 </property>
+                 <property name="text">
+                  <string>Средняя</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 2</string>
+                 </property>
+                 <property name="text">
+                  <string>Низкая</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 1</string>
+                 </property>
+                 <property name="text">
+                  <string>Очень низкая</string>
+                 </property>
+                </item>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Количество осадков</string>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Имя терма</string>
+                 </property>
+                 <property name="text">
+                  <string>O</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 5</string>
+                 </property>
+                 <property name="text">
+                  <string>Очень высокое</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 4</string>
+                 </property>
+                 <property name="text">
+                  <string>Высокое</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 3</string>
+                 </property>
+                 <property name="text">
+                  <string>Среднее</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 2</string>
+                 </property>
+                 <property name="text">
+                  <string>Низкое</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 1</string>
+                 </property>
+                 <property name="text">
+                  <string>Очень низкое</string>
+                 </property>
+                </item>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Влажность</string>
                 </property>
                 <property name="text">
-                 <string>ффф</string>
+                 <string/>
                 </property>
                 <property name="flags">
                  <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
                 </property>
+                <item>
+                 <property name="text">
+                  <string>Имя терма</string>
+                 </property>
+                 <property name="text">
+                  <string>B</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 5</string>
+                 </property>
+                 <property name="text">
+                  <string>Очень высокая</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 4</string>
+                 </property>
+                 <property name="text">
+                  <string>Высокая</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 3</string>
+                 </property>
+                 <property name="text">
+                  <string>Средняя</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 2</string>
+                 </property>
+                 <property name="text">
+                  <string>Низкая</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Значение 1</string>
+                 </property>
+                 <property name="text">
+                  <string>Очень низкая</string>
+                 </property>
+                </item>
                </item>
               </widget>
              </item>
@@ -319,7 +473,7 @@
                  <rect>
                   <x>10</x>
                   <y>10</y>
-                  <width>451</width>
+                  <width>251</width>
                   <height>461</height>
                  </rect>
                 </property>
@@ -339,37 +493,7 @@
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_3">
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_2">
-                     <item>
-                      <widget class="QLabel" name="label_4">
-                       <property name="text">
-                        <string>Формат данных: </string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QComboBox" name="inputComboBox">
-                       <property name="currentIndex">
-                        <number>1</number>
-                       </property>
-                       <item>
-                        <property name="text">
-                         <string comment="0">Выбрать</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string comment="1">Численные от 0 до N</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string comment="2">Текстовые</string>
-                        </property>
-                       </item>
-                      </widget>
-                     </item>
-                    </layout>
+                    <layout class="QVBoxLayout" name="verticalLayout_2"/>
                    </item>
                    <item>
                     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -381,7 +505,7 @@
                         </font>
                        </property>
                        <property name="text">
-                        <string>Separator:</string>
+                        <string>Разделитель:</string>
                        </property>
                       </widget>
                      </item>
@@ -532,8 +656,8 @@
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>20</y>
-           <width>871</width>
+           <y>10</y>
+           <width>981</width>
            <height>471</height>
           </rect>
          </property>
@@ -851,10 +975,23 @@
           </property>
          </item>
         </widget>
+        <widget class="QPushButton" name="clearFuzzyButton_2">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>490</y>
+           <width>75</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Очистить</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="tab_5">
         <attribute name="title">
-         <string>Нечеткий вид</string>
+         <string>Нечёткий вид</string>
         </attribute>
         <widget class="QTableWidget" name="fuzzyTable">
          <property name="geometry">
@@ -1193,203 +1330,233 @@
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="tab_2">
+       <widget class="QWidget" name="tab_3">
         <attribute name="title">
-         <string>Рабочая информация</string>
+         <string>Функции принадлежности</string>
         </attribute>
-        <widget class="QLabel" name="label_3">
+        <widget class="QWidget" name="plotWidget" native="true">
          <property name="geometry">
           <rect>
-           <x>30</x>
-           <y>30</y>
-           <width>231</width>
-           <height>21</height>
+           <x>10</x>
+           <y>90</y>
+           <width>1001</width>
+           <height>461</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="makePlotButton">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>50</y>
+           <width>121</width>
+           <height>23</height>
           </rect>
          </property>
          <property name="text">
-          <string>&lt;h3&gt;Суммарные поддержки термов:&lt;/h3&gt;</string>
+          <string>Построить график</string>
          </property>
         </widget>
-        <widget class="QTableWidget" name="termsTable">
+        <widget class="QPushButton" name="lvarPlotButton">
          <property name="geometry">
           <rect>
-           <x>30</x>
-           <y>60</y>
-           <width>961</width>
-           <height>101</height>
-          </rect>
-         </property>
-         <property name="rowCount">
-          <number>5</number>
-         </property>
-         <property name="columnCount">
-          <number>50</number>
-         </property>
-         <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>40</number>
-         </attribute>
-         <row/>
-         <row/>
-         <row/>
-         <row/>
-         <row/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-        </widget>
-        <widget class="QLabel" name="label_6">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>190</y>
-           <width>241</width>
-           <height>21</height>
+           <x>650</x>
+           <y>10</y>
+           <width>91</width>
+           <height>23</height>
           </rect>
          </property>
          <property name="text">
-          <string>&lt;h3&gt;Данные с построенными словами:&lt;/h3&gt;</string>
+          <string>Перерисовать</string>
          </property>
         </widget>
-        <widget class="QTableWidget" name="wordsTable">
+        <widget class="QComboBox" name="plotNamesCombo">
          <property name="geometry">
           <rect>
-           <x>30</x>
-           <y>220</y>
-           <width>581</width>
-           <height>301</height>
+           <x>290</x>
+           <y>10</y>
+           <width>69</width>
+           <height>22</height>
           </rect>
          </property>
-         <property name="rowCount">
-          <number>0</number>
-         </property>
-         <property name="columnCount">
-          <number>50</number>
-         </property>
-         <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>40</number>
-         </attribute>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
-         <column/>
         </widget>
-        <widget class="QPlainTextEdit" name="fptreeEdit">
+        <widget class="QLabel" name="label_11">
          <property name="geometry">
           <rect>
-           <x>620</x>
-           <y>220</y>
-           <width>381</width>
-           <height>301</height>
-          </rect>
-         </property>
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOn</enum>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_7">
-         <property name="geometry">
-          <rect>
-           <x>620</x>
-           <y>190</y>
-           <width>241</width>
+           <x>20</x>
+           <y>10</y>
+           <width>261</width>
            <height>21</height>
           </rect>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="text">
-          <string>&lt;h3&gt;Дерево частых наборов (FP-Tree):&lt;/h3&gt;</string>
+          <string>Выбрать лингвистическую переменную:</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="clearPlotButton">
+         <property name="geometry">
+          <rect>
+           <x>650</x>
+           <y>40</y>
+           <width>75</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Очистить</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_12">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>10</y>
+           <width>171</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Параметры аппроксимации:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_13">
+         <property name="geometry">
+          <rect>
+           <x>550</x>
+           <y>40</y>
+           <width>46</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Шаг</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="diffstepEdit">
+         <property name="geometry">
+          <rect>
+           <x>600</x>
+           <y>40</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0.0001</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_14">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>40</y>
+           <width>31</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>epsf:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="epsfEdit">
+         <property name="geometry">
+          <rect>
+           <x>420</x>
+           <y>40</y>
+           <width>61</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_15">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>70</y>
+           <width>31</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>epsx:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="epsxEdit">
+         <property name="geometry">
+          <rect>
+           <x>420</x>
+           <y>70</y>
+           <width>61</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0.000001</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_16">
+         <property name="geometry">
+          <rect>
+           <x>495</x>
+           <y>70</y>
+           <width>101</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Число итераций</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="maxitsEdit">
+         <property name="geometry">
+          <rect>
+           <x>600</x>
+           <y>70</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0</string>
          </property>
         </widget>
        </widget>
@@ -1406,11 +1573,6 @@
            <height>481</height>
           </rect>
          </property>
-         <item>
-          <property name="text">
-           <string>Здесь ничего нет.</string>
-          </property>
-         </item>
         </widget>
         <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
@@ -1612,236 +1774,6 @@
            </spacer>
           </item>
          </layout>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="tab_3">
-        <attribute name="title">
-         <string>График</string>
-        </attribute>
-        <widget class="QWidget" name="plotWidget" native="true">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>90</y>
-           <width>1001</width>
-           <height>461</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="makePlotButton">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>10</y>
-           <width>75</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Make Plot</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="lvarPlotButton">
-         <property name="geometry">
-          <rect>
-           <x>720</x>
-           <y>10</y>
-           <width>91</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Перерисовать</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="plotNamesCombo">
-         <property name="geometry">
-          <rect>
-           <x>400</x>
-           <y>10</y>
-           <width>69</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_11">
-         <property name="geometry">
-          <rect>
-           <x>140</x>
-           <y>10</y>
-           <width>251</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Выбрать Лингвистическую переменную:</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="clearPlotButton">
-         <property name="geometry">
-          <rect>
-           <x>720</x>
-           <y>40</y>
-           <width>75</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Очистить</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_12">
-         <property name="geometry">
-          <rect>
-           <x>490</x>
-           <y>10</y>
-           <width>171</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Параметры аппроксимации:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_13">
-         <property name="geometry">
-          <rect>
-           <x>620</x>
-           <y>40</y>
-           <width>46</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>diffstep:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="diffstepEdit">
-         <property name="geometry">
-          <rect>
-           <x>670</x>
-           <y>40</y>
-           <width>41</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>0.0001</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_14">
-         <property name="geometry">
-          <rect>
-           <x>490</x>
-           <y>40</y>
-           <width>31</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>epsf:</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="epsfEdit">
-         <property name="geometry">
-          <rect>
-           <x>530</x>
-           <y>40</y>
-           <width>61</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_15">
-         <property name="geometry">
-          <rect>
-           <x>490</x>
-           <y>70</y>
-           <width>31</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>epsx:</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="epsxEdit">
-         <property name="geometry">
-          <rect>
-           <x>530</x>
-           <y>70</y>
-           <width>61</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>0.000001</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_16">
-         <property name="geometry">
-          <rect>
-           <x>620</x>
-           <y>70</y>
-           <width>46</width>
-           <height>13</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>maxits:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="maxitsEdit">
-         <property name="geometry">
-          <rect>
-           <x>670</x>
-           <y>70</y>
-           <width>41</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>0</string>
-         </property>
         </widget>
        </widget>
        <widget class="QWidget" name="tab_7">
@@ -2053,6 +1985,206 @@
            </layout>
           </item>
          </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>Рабочая информация</string>
+        </attribute>
+        <widget class="QLabel" name="label_3">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>30</y>
+           <width>231</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;h3&gt;Суммарные поддержки термов:&lt;/h3&gt;</string>
+         </property>
+        </widget>
+        <widget class="QTableWidget" name="termsTable">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>60</y>
+           <width>961</width>
+           <height>101</height>
+          </rect>
+         </property>
+         <property name="rowCount">
+          <number>5</number>
+         </property>
+         <property name="columnCount">
+          <number>50</number>
+         </property>
+         <attribute name="horizontalHeaderDefaultSectionSize">
+          <number>40</number>
+         </attribute>
+         <row/>
+         <row/>
+         <row/>
+         <row/>
+         <row/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+        </widget>
+        <widget class="QLabel" name="label_6">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>190</y>
+           <width>241</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;h3&gt;Данные с построенными словами:&lt;/h3&gt;</string>
+         </property>
+        </widget>
+        <widget class="QTableWidget" name="wordsTable">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>220</y>
+           <width>581</width>
+           <height>301</height>
+          </rect>
+         </property>
+         <property name="rowCount">
+          <number>0</number>
+         </property>
+         <property name="columnCount">
+          <number>50</number>
+         </property>
+         <attribute name="horizontalHeaderDefaultSectionSize">
+          <number>40</number>
+         </attribute>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+         <column/>
+        </widget>
+        <widget class="QPlainTextEdit" name="fptreeEdit">
+         <property name="geometry">
+          <rect>
+           <x>620</x>
+           <y>220</y>
+           <width>381</width>
+           <height>301</height>
+          </rect>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOn</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_7">
+         <property name="geometry">
+          <rect>
+           <x>620</x>
+           <y>190</y>
+           <width>241</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;h3&gt;Дерево частых наборов (FP-Tree):&lt;/h3&gt;</string>
+         </property>
         </widget>
        </widget>
       </widget>

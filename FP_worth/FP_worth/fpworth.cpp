@@ -91,7 +91,7 @@ void FPWorth::printNumbers(QTableWidget *table, int max_rows, int add, int start
                 item = new QTableWidgetItem(QString::number(numbers[k][i][j] + add));
                 table->setItem(start_x + r_sum, start_y + j, item);
             }
-            item = new QTableWidgetItem(QString::number(k));
+            item = new QTableWidgetItem(QString::number(k + add));
             table->setItem(start_x + r_sum, start_y + j, item);
             r_sum += 1;
         }
@@ -121,10 +121,6 @@ QStringList FPWorth::readFileToStringList(QString fileName){
 
 
     csvFile.setFileName(fileName);
-    if (ui->inputComboBox->currentIndex() == 0){
-        QMessageBox::warning(this, tr("Warning"), tr("Please choose input type"));
-        return ret;
-    }
     if (!csvFile.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
         return ret;
@@ -178,43 +174,38 @@ void FPWorth::on_openFuzzyButton_clicked(){
     fuzzyTableIndexes_prev.resize(0);
     rows = new int[lvar_size];
     for (i = 0; i < lvar_size; i++) rows[i] = 0;
-
-    if (ui->inputComboBox->currentIndex() == 1){
-        // -- input of numeric --
-        numbers = new int**[lvar_size];
-        string_numbers = new int*[lvar_size];
-        for (i = 0; i < lvar_size; i++){
-            numbers[i] = new int*[max_rows];
-            string_numbers[i] = new int[max_rows];
-            for (j = 0; j < max_rows; j++){
-                numbers[i][j] = new int[cols];
-            }
+    // -- input of numeric --
+    numbers = new int**[lvar_size];
+    string_numbers = new int*[lvar_size];
+    for (i = 0; i < lvar_size; i++){
+        numbers[i] = new int*[max_rows];
+        string_numbers[i] = new int[max_rows];
+        for (j = 0; j < max_rows; j++){
+            numbers[i][j] = new int[cols];
         }
-
-        stop_messages = 0;
-        for (i = 0; i < max_rows; i++){
-            ui->progressBar->setValue(30 + ((double)i/max_rows)*50);
-            splitList = inputStrList.at(i).split(sep);
-            k = splitList.last().toInt() - 1;
-            std::cout << k << "----------\n";
-            if (splitList.size() != names.size() && stop_messages < 5){
-                QMessageBox::warning(this, tr("Error"), tr("Wrong size of %1'th row.").arg(i));
-                stop_messages += 1;
-            }
-            if (splitList.size() - 1 > cols){
-                return;
-            }
-            buf_size = splitList.size();
-            for (j = 0; j < splitList.size() - 1; j++){
-                numbers[k][rows[k]][j] = splitList.at(j).toInt() - 1;
-                string_numbers[k][rows[k]] = i;
-            }
-            rows[k] += 1;
-        }
-        // == End input of numeric ==
-    }else if (ui->inputComboBox->currentIndex() == 2){
-        //Not ready. Should run earlier than numeric.
     }
+
+    stop_messages = 0;
+    for (i = 0; i < max_rows; i++){
+        ui->progressBar->setValue(30 + ((double)i/max_rows)*50);
+        splitList = inputStrList.at(i).split(sep);
+        k = splitList.last().toInt() - 1;
+        std::cout << k << "----------\n";
+        if (splitList.size() != names.size() && stop_messages < 5){
+            QMessageBox::warning(this, tr("Error"), tr("Wrong size of %1'th row.").arg(i));
+            stop_messages += 1;
+        }
+        if (splitList.size() - 1 > cols){
+            return;
+        }
+        buf_size = splitList.size();
+        for (j = 0; j < splitList.size() - 1; j++){
+            numbers[k][rows[k]][j] = splitList.at(j).toInt() - 1;
+            string_numbers[k][rows[k]] = i;
+        }
+        rows[k] += 1;
+    }
+    // == End input of numeric ==
     printNumbers(ui->fuzzyTable,max_rows, 0);
     ui->progressBar->setValue(100);
 }
