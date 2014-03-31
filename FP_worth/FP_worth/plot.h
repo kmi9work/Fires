@@ -55,11 +55,15 @@ public:
     void drawGauss(double m, double a, int type, int i);
     void drawDots(QVector<QVector<struct numCluster> > data, double n, double k, int index, int size, int number);
     void clear();
+    void addPoint(double x, double y);
+    void drawPoints();
 protected:
     virtual void resizeEvent( QResizeEvent * );
 
 private:
     void updateGradient();
+    QPolygonF pointsArr;
+    QwtPlotCurve *curvePoints;
 };
 
 #endif // PLOT_H

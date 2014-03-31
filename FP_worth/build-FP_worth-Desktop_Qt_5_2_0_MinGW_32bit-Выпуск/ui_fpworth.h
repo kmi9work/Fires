@@ -134,6 +134,13 @@ public:
     QHBoxLayout *horizontalLayout_16;
     QProgressBar *progressBar_nnps;
     QSpacerItem *horizontalSpacer_12;
+    QHBoxLayout *horizontalLayout_17;
+    QGroupBox *groupBox_2;
+    QLabel *label_4;
+    QLabel *label_17;
+    QLabel *fireCountLabel;
+    QLabel *probLabel;
+    QSpacerItem *horizontalSpacer_13;
     QWidget *tab_2;
     QLabel *label_3;
     QTableWidget *termsTable;
@@ -858,7 +865,7 @@ public:
         tab_7->setObjectName(QStringLiteral("tab_7"));
         verticalLayoutWidget = new QWidget(tab_7);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(10, 20, 601, 201));
+        verticalLayoutWidget->setGeometry(QRect(10, 20, 601, 255));
         verticalLayout_6 = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout_6->setSpacing(6);
         verticalLayout_6->setContentsMargins(11, 11, 11, 11);
@@ -964,6 +971,34 @@ public:
 
         verticalLayout_6->addLayout(horizontalLayout_16);
 
+        horizontalLayout_17 = new QHBoxLayout();
+        horizontalLayout_17->setSpacing(6);
+        horizontalLayout_17->setObjectName(QStringLiteral("horizontalLayout_17"));
+        groupBox_2 = new QGroupBox(verticalLayoutWidget);
+        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        groupBox_2->setMinimumSize(QSize(380, 50));
+        label_4 = new QLabel(groupBox_2);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setGeometry(QRect(10, 20, 121, 16));
+        label_17 = new QLabel(groupBox_2);
+        label_17->setObjectName(QStringLiteral("label_17"));
+        label_17->setGeometry(QRect(210, 20, 71, 16));
+        fireCountLabel = new QLabel(groupBox_2);
+        fireCountLabel->setObjectName(QStringLiteral("fireCountLabel"));
+        fireCountLabel->setGeometry(QRect(140, 20, 61, 16));
+        probLabel = new QLabel(groupBox_2);
+        probLabel->setObjectName(QStringLiteral("probLabel"));
+        probLabel->setGeometry(QRect(290, 20, 61, 16));
+
+        horizontalLayout_17->addWidget(groupBox_2);
+
+        horizontalSpacer_13 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_17->addItem(horizontalSpacer_13);
+
+
+        verticalLayout_6->addLayout(horizontalLayout_17);
+
         tabWidget->addTab(tab_7, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
@@ -1016,7 +1051,7 @@ public:
 
         retranslateUi(FPWorth);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(5);
 
 
         QMetaObject::connectSlotsByName(FPWorth);
@@ -1025,9 +1060,9 @@ public:
     void retranslateUi(QMainWindow *FPWorth)
     {
         FPWorth->setWindowTitle(QApplication::translate("FPWorth", "\320\230\320\275\321\204\320\276\321\200\320\274\320\260\321\206\320\270\320\276\320\275\320\275\320\260\321\217 \321\201\320\270\321\201\321\202\320\265\320\274\320\260 \320\277\321\200\320\276\320\263\320\275\320\276\320\267\320\270\321\200\320\276\320\262\320\260\320\275\320\270\321\217 \320\277\321\200\320\270\321\200\320\276\320\264\320\275\321\213\321\205 \320\273\320\265\321\201\320\275\321\213\321\205 \320\277\320\276\320\266\320\260\321\200\320\276\320\262", 0));
-        openNormalButton->setText(QApplication::translate("FPWorth", "\320\236\321\202\320\272\321\200\321\213\321\202\321\214 \321\204\320\260\320\271\320\273 \321\201 \321\207\320\270\321\201\320\273\320\265\320\275\320\275\321\213\320\274\320\270 \320\264\320\260\320\275\320\275\321\213\320\274\320\270", 0));
+        openNormalButton->setText(QApplication::translate("FPWorth", "\320\236\321\202\320\272\321\200\321\213\321\202\321\214 \321\204\320\260\320\271\320\273 \321\201 \320\270\321\201\321\205\320\276\320\264\320\275\321\213\320\274\320\270 \320\264\320\260\320\275\320\275\321\213\320\274\320\270", 0));
         normalFileLabel->setText(QApplication::translate("FPWorth", "\320\222\321\213\320\261\320\265\321\200\320\270\321\202\320\265 \321\204\320\260\320\271\320\273", 0));
-        openFuzzyButton->setText(QApplication::translate("FPWorth", "\320\236\321\202\320\272\321\200\321\213\321\202\321\214 \321\204\320\260\320\271\320\273 \321\201 \320\275\320\265\321\207\321\221\321\202\320\272\320\270\320\274\320\270 \320\264\320\260\320\275\320\275\321\213\320\274\320\270", 0));
+        openFuzzyButton->setText(QApplication::translate("FPWorth", "\320\236\321\202\320\272\321\200\321\213\321\202\321\214 \321\204\320\260\320\271\320\273 \321\201 \320\276\320\261\321\200\320\260\320\261\320\276\321\202\320\260\320\275\320\275\321\213\320\274\320\270 \320\264\320\260\320\275\320\275\321\213\320\274\320\270", 0));
         fuzzyFileLabel->setText(QApplication::translate("FPWorth", "\320\222\321\213\320\261\320\265\321\200\320\270\321\202\320\265 \321\204\320\260\320\271\320\273", 0));
         QTreeWidgetItem *___qtreewidgetitem = lvarSettings->headerItem();
         ___qtreewidgetitem->setText(1, QApplication::translate("FPWorth", "\320\227\320\275\320\260\321\207\320\265\320\275\320\270\321\217", 0));
@@ -1124,7 +1159,7 @@ public:
         sepEdit->setText(QApplication::translate("FPWorth", ";", 0));
         label_5->setText(QApplication::translate("FPWorth", "\320\234\320\276\321\211\320\275\320\276\321\201\321\202\321\214 \320\273\320\270\320\275\320\263\320\262\320\270\321\201\321\202\320\270\321\207\320\265\321\201\320\272\320\276\320\271 \320\277\320\265\321\200\320\265\320\274\320\265\320\275\320\275\320\276\320\271:", 0));
         termSizeEdit->setText(QApplication::translate("FPWorth", "5", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("FPWorth", "Main", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("FPWorth", "\320\235\320\260\321\201\321\202\321\200\320\276\320\271\320\272\320\260", 0));
         QTableWidgetItem *___qtablewidgetitem = normalTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("FPWorth", "1", 0));
         QTableWidgetItem *___qtablewidgetitem1 = normalTable->horizontalHeaderItem(1);
@@ -1231,7 +1266,7 @@ public:
         normalTable->setSortingEnabled(__sortingEnabled1);
 
         clearFuzzyButton_2->setText(QApplication::translate("FPWorth", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("FPWorth", "\320\247\320\270\321\201\320\273\320\265\320\275\320\275\321\213\320\271 \320\262\320\270\320\264", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("FPWorth", "\320\230\321\201\321\205\320\276\320\264\320\275\321\213\320\265 \320\264\320\260\320\275\320\275\321\213\320\265", 0));
         QTableWidgetItem *___qtablewidgetitem50 = fuzzyTable->horizontalHeaderItem(0);
         ___qtablewidgetitem50->setText(QApplication::translate("FPWorth", "1", 0));
         QTableWidgetItem *___qtablewidgetitem51 = fuzzyTable->horizontalHeaderItem(1);
@@ -1338,7 +1373,7 @@ public:
         fuzzyTable->setSortingEnabled(__sortingEnabled2);
 
         clearFuzzyButton->setText(QApplication::translate("FPWorth", "\320\236\321\207\320\270\321\201\321\202\320\270\321\202\321\214", 0));
-        tabWidget->setTabText(tabWidget->indexOf(tab_5), QApplication::translate("FPWorth", "\320\235\320\265\321\207\321\221\321\202\320\272\320\270\320\271 \320\262\320\270\320\264", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab_5), QApplication::translate("FPWorth", "\320\236\320\261\321\200\320\260\320\261\320\276\321\202\320\272\320\260 \320\264\320\260\320\275\320\275\321\213\321\205", 0));
         makePlotButton->setText(QApplication::translate("FPWorth", "\320\237\320\276\321\201\321\202\321\200\320\276\320\270\321\202\321\214 \320\263\321\200\320\260\321\204\320\270\320\272", 0));
         lvarPlotButton->setText(QApplication::translate("FPWorth", "\320\237\320\265\321\200\320\265\321\200\320\270\321\201\320\276\320\262\320\260\321\202\321\214", 0));
         label_11->setText(QApplication::translate("FPWorth", "\320\222\321\213\320\261\321\200\320\260\321\202\321\214 \320\273\320\270\320\275\320\263\320\262\320\270\321\201\321\202\320\270\321\207\320\265\321\201\320\272\321\203\321\216 \320\277\320\265\321\200\320\265\320\274\320\265\320\275\320\275\321\203\321\216:", 0));
@@ -1410,6 +1445,11 @@ public:
         inputNnpsTable->setSortingEnabled(__sortingEnabled4);
 
         nnpsButton->setText(QApplication::translate("FPWorth", "\320\240\320\260\321\201\321\201\321\207\320\270\321\202\320\260\321\202\321\214 \320\277\321\200\320\276\320\263\320\275\320\276\320\267 \320\277\320\276\320\266\320\260\321\200\320\276\320\262", 0));
+        groupBox_2->setTitle(QApplication::translate("FPWorth", "\320\240\320\265\320\267\321\203\320\273\321\214\321\202\320\260\321\202\321\213", 0));
+        label_4->setText(QApplication::translate("FPWorth", "\320\232\320\276\320\273\320\270\321\207\320\265\321\201\321\202\320\262\320\276 \320\277\320\276\320\266\320\260\321\200\320\276\320\262:", 0));
+        label_17->setText(QApplication::translate("FPWorth", "\320\222\320\265\321\200\320\276\321\217\321\202\320\275\320\276\321\201\321\202\321\214", 0));
+        fireCountLabel->setText(QString());
+        probLabel->setText(QString());
         tabWidget->setTabText(tabWidget->indexOf(tab_7), QApplication::translate("FPWorth", "\320\235\320\235\320\237\320\241", 0));
         label_3->setText(QApplication::translate("FPWorth", "<h3>\320\241\321\203\320\274\320\274\320\260\321\200\320\275\321\213\320\265 \320\277\320\276\320\264\320\264\320\265\321\200\320\266\320\272\320\270 \321\202\320\265\321\200\320\274\320\276\320\262:</h3>", 0));
         label_6->setText(QApplication::translate("FPWorth", "<h3>\320\224\320\260\320\275\320\275\321\213\320\265 \321\201 \320\277\320\276\321\201\321\202\321\200\320\276\320\265\320\275\320\275\321\213\320\274\320\270 \321\201\320\273\320\276\320\262\320\260\320\274\320\270:</h3>", 0));

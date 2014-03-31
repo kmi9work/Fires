@@ -76,6 +76,12 @@ private slots:
 
     void on_clearPlotButton_clicked();
 
+    void on_addNormalButton_clicked();
+
+    void on_tableCombo_currentIndexChanged(int index);
+
+    void on_countRulesEdit_returnPressed();
+
 private:
     void printNumbers(QTableWidget *table, int max_rows, int add, int start_x, int start_y);
     void splitColumns();
@@ -86,35 +92,36 @@ private:
 
     int cols; // number of lvars without Fires
     int *rows;
-    int lvar_size; // Размер лингвистических переменных.
     int ***numbers; // Обыкновенные числа
     int **string_numbers; // Номера строк
     int global_i;
     int word_count;
     int maxWordSize;
     int *fires;
-    struct term *terms;
     QStringList names; // Имена термов
-    int first, last; // уровни, которые нужно вывести
+    QVector<int> firsts, lasts; // уровни, которые нужно вывести
+    int tableComboPrevIndex;
+    QVector<int> countRules;
 
     Ui::FPWorth *ui;
     //FPTree *rootFPTree;
     CandidateTree *rootCTree;
-    QVector< QVector<struct term> > words;
     //QVector<struct level> levels;
-    QVector<double> deltas; //minsupp
+    QVector< QVector<double> > deltas; //minsupp
     QVector<struct pattern> frequentPatterns;
     QVector<struct pattern> fpList;
-    QVector< QVector<struct numCluster> > data; // num and cluster all terms(with fire)
+    QVector< QVector<struct numCluster> > data; // num and cluster all terms(with fire) [max_rows][cols+1]
     QVector< QVector<int> > count_cluster; //Число элементов в кластере.[cols+1][lvar_size]
     QVector< QVector<double> > means; // ядра кластеров.
     QString sep; // separator
     int rulesListIndex_prev; // Подсветка правила
     QVector<int> fuzzyTableIndexes_prev; // Подсветка строк в нечётком множестве.
-    //bool byColumn(const double *col1, const double *col2);
+    QVector< QVector<double> > base_set;
+    QVector<int> term_counts; // Количество термов в каждой л. п.
+    int fire_count;
 
-    Plot *plot;
-    QHBoxLayout *layout;
+    Plot *plot, *nnpsPlot;
+    QHBoxLayout *layout, *layout_nnps;
     QVector< QVector<struct membershipFunction> > fs;
     double epsf; // Параметры аппроксимации.
     double epsx;
@@ -127,7 +134,9 @@ private:
     QStringList readFileToStringList(QString fileName);
     void makeCTree(int **numbers, int rows);
     void findRules(int first, int last, int step);
-    void printRules(QVector<pattern> frequentPatterns);
+    void printRules(QVector<pattern> fpList);
+    void writeFromTableToDeltas();
+    void writeFromDeltasToTable(int index);
 };
 
 #endif // FPWORTH_H

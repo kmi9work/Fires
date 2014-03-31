@@ -18,7 +18,7 @@ public:
     QVector<CandidateTree*> children;
     QVector<int> string_numbers;
     void addChild(struct term d, int supp, QVector<int> str_nums);
-    void makeTree(int **numbers, int rows, int lvar_size);
+    void makeTree(int **numbers, int rows);
     QVector<pattern> assocRules(int first, int last, int step);
     QVector<double> deltas;
     int level;

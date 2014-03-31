@@ -5,6 +5,7 @@
 #include "alglib/dataanalysis.h"
 #include "alglib/interpolation.h"
 #include <stdlib.h>     /* srand, rand */
+#include <limits>
 
 
 #define FIRE_COUNT 3
@@ -16,24 +17,33 @@ FPWorth::FPWorth(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::FPWorth)
 {
+    int i;
     ui->setupUi(this);
     ui->lvarSettings->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->lvarSettings, SIGNAL(customContextMenuRequested(const QPoint&)),
             this, SLOT(ShowContextMenu(const QPoint&)));
-    first = ui->termCountFirst->text().toInt();
-    last = ui->termCountLast->text().toInt();
+    // Set start values
+    tableComboPrevIndex = 1;
+
+    // Write start values to form.
+   // ui->tableCombo->setItemText(0, QString::number(1));
+
+    // Set vars from form.
     rulesListIndex_prev = -1;
     plot = new Plot();
     layout = new QHBoxLayout( ui->plotWidget );
     layout->setContentsMargins( 0, 0, 0, 0 );
     layout->addWidget( plot );
+    nnpsPlot = new Plot();
+    layout_nnps = new QHBoxLayout( ui->plotWidget_nnps );
+    layout_nnps->setContentsMargins( 0, 0, 0, 0 );
+    layout_nnps->addWidget( nnpsPlot );
     epsf = ui->epsfEdit->text().toDouble();
     epsx = ui->epsxEdit->text().toDouble();
     maxits = ui->maxitsEdit->text().toDouble();
     diffstep = ui->diffstepEdit->text().toDouble();
+    ui->rulesListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
-
-
 
 FPWorth::~FPWorth()
 {
@@ -85,7 +95,7 @@ void FPWorth::printNumbers(QTableWidget *table, int max_rows, int add, int start
         item = new QTableWidgetItem(names[i]);
         table->setHorizontalHeaderItem(i, item);
     }
-    for (k = 0; k < lvar_size; k++){
+    for (k = 0; k < fire_count; k++){
         for (i = 0; i < rows[k]; i++){
             for (j = 0; j < cols; j++){
                 item = new QTableWidgetItem(QString::number(numbers[k][i][j] + add));
@@ -116,33 +126,59 @@ QStringList FPWorth::readFileToStringList(QString fileName){
     int i;
     QFile csvFile;
     QStringList ret;
+    QStringList buf_list;
     QTableWidgetItem *item;
     sep = ui->sepEdit->text();
-
 
     csvFile.setFileName(fileName);
     if (!csvFile.open(QIODevice::ReadOnly)) {
         QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
         return ret;
     }
+
     // -- Read from file to inputStrList --
     QTextStream in(&csvFile);
     names = in.readLine().split(sep);
-    ui->inputNnpsTable->setColumnCount(names.size() - 1);
-
-    for (i = 0; i < names.size() - 1; i++){
+    cols = names.size() - 1; // -Fires
+    for (i = 0; i < cols; i++){
         item = new QTableWidgetItem(names[i]);
         ui->inputNnpsTable->setItem(0,i,item);
         ui->plotNamesCombo->addItem(names[i]);
     }
     ui->plotNamesCombo->addItem(names[i]);
-    cols = names.size() - 1; // -Fires
-    in.readLine(); // Second line is lvar sizes. Not ready yet.
+
+    buf_list = in.readLine().split(sep);
+    term_counts.resize(cols+1);
+    for (i = 0; i < cols + 1; i++){
+        term_counts[i] = buf_list[i].toInt();
+    }
+    fire_count = term_counts[cols];
+    for (i = 1; i < fire_count; i++){
+        ui->tableCombo->addItem(QString::number(i+1));
+    }
+    firsts.resize(fire_count);
+    lasts.resize(fire_count);
+    countRules.resize(fire_count);
+    for (i = 0; i < fire_count; i++){
+        countRules[i] = i + 1;
+        firsts[i] = 3;
+        lasts[i] = 3;
+    }
+    deltas.resize(fire_count);
+    for (i = 0; i < fire_count; i++){
+        deltas[i].resize(lasts[i]);
+    }
+    tableComboPrevIndex = ui->tableCombo->currentIndex();
+    ui->countRulesEdit->setText(QString::number(countRules[tableComboPrevIndex]));
+    ui->termCountFirst->setValue(firsts[tableComboPrevIndex]);
+    ui->termCountLast->setValue(lasts[tableComboPrevIndex]);
+    // Second line is lvar sizes. Not ready yet.
     while (!in.atEnd()){
         ret.append(in.readLine());
     }
     csvFile.close();
     //== End read file ==
+    ui->inputNnpsTable->setColumnCount(cols);
     return ret;
 }
 
@@ -156,7 +192,6 @@ void FPWorth::on_openFuzzyButton_clicked(){
     int max_rows;
 
     sep = ui->sepEdit->text();
-    lvar_size = ui->termSizeEdit->text().toInt();
     ui->progressBar->setValue(0);
     fileName = QFileDialog::getOpenFileName(this, tr("Open File"), tr("../.."),
                                             tr("CSV Files (*.csv);;Text Files (*.txt)"));
@@ -172,42 +207,128 @@ void FPWorth::on_openFuzzyButton_clicked(){
     max_rows = inputStrList.size();
     fuzzyTableIndexes_prev.reserve(max_rows);
     fuzzyTableIndexes_prev.resize(0);
-    rows = new int[lvar_size];
-    for (i = 0; i < lvar_size; i++) rows[i] = 0;
+    rows = new int[fire_count];
+    for (i = 0; i < fire_count; i++) rows[i] = 0;
     // -- input of numeric --
-    numbers = new int**[lvar_size];
-    string_numbers = new int*[lvar_size];
-    for (i = 0; i < lvar_size; i++){
+    numbers = new int**[fire_count];
+    string_numbers = new int*[fire_count];
+    for (i = 0; i < fire_count; i++){
         numbers[i] = new int*[max_rows];
         string_numbers[i] = new int[max_rows];
         for (j = 0; j < max_rows; j++){
             numbers[i][j] = new int[cols];
         }
     }
-
+    data.resize(max_rows);
     stop_messages = 0;
     for (i = 0; i < max_rows; i++){
         ui->progressBar->setValue(30 + ((double)i/max_rows)*50);
         splitList = inputStrList.at(i).split(sep);
         k = splitList.last().toInt() - 1;
-        std::cout << k << "----------\n";
-        if (splitList.size() != names.size() && stop_messages < 5){
+        if (splitList.size() != (cols+1) && stop_messages < 5){
             QMessageBox::warning(this, tr("Error"), tr("Wrong size of %1'th row.").arg(i));
             stop_messages += 1;
-        }
-        if (splitList.size() - 1 > cols){
             return;
         }
         buf_size = splitList.size();
+        data[i].resize(cols+1);
         for (j = 0; j < splitList.size() - 1; j++){
+            data[i][j].cluster = splitList.at(j).toInt() - 1;
             numbers[k][rows[k]][j] = splitList.at(j).toInt() - 1;
             string_numbers[k][rows[k]] = i;
         }
+        data[i][j].cluster = splitList.at(j).toInt() - 1;
         rows[k] += 1;
     }
     // == End input of numeric ==
     printNumbers(ui->fuzzyTable,max_rows, 0);
     ui->progressBar->setValue(100);
+    ui->addNormalButton->setEnabled(true);
+}
+
+
+void FPWorth::on_addNormalButton_clicked()
+{
+    QFile csvFile;
+    QString fileName;
+    QStringList inputStrList, splitList;
+    int max_rows = 0;
+    int i,j;
+    QTableWidgetItem *item;
+    double m;
+    fileName = QFileDialog::getOpenFileName(this, tr("Open File"), tr("../.."),
+                                            tr("CSV Files (*.csv);;Text Files (*.txt)"));
+    if (!fileName.isEmpty()){
+        csvFile.setFileName(fileName);
+        ui->normalFileLabel->setText(fileName);
+    }else{
+        return;
+    }
+    csvFile.setFileName(fileName);
+    if (!csvFile.open(QIODevice::ReadOnly)) {
+        QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
+        return;
+    }
+    QTextStream in(&csvFile);
+    in.readLine(); // names
+    in.readLine(); // Second line is lvar sizes. Not ready yet.
+    while (!in.atEnd()){
+        inputStrList.append(in.readLine());
+    }
+    csvFile.close();
+    max_rows = inputStrList.size();
+
+
+    for (i = 0; i < max_rows; i++){
+        splitList = inputStrList[i].split(sep);
+        if (splitList.size() != cols + 1){
+            QMessageBox::critical(this, tr("Error in line size"),
+                                  tr("Wrong size of %1'th row. Cols: %2, Size: %3")
+                                  .arg(i).arg(cols).arg(splitList.size()));
+            return;
+        }
+        for (j = 0; j < splitList.size(); j++){
+            data[i][j].number = splitList[j].toDouble();
+        }
+    }
+    // -- Print normal data to normalTable --
+    ui->normalTable->setColumnCount(cols + 1); // + Fires
+    ui->normalTable->setRowCount(max_rows);
+    for (i = 0; i < names.size(); i++){
+        item = new QTableWidgetItem(names[i]);
+        ui->normalTable->setHorizontalHeaderItem(i, item);
+    }
+    for (i = 0; i < max_rows; i++){
+        for (j = 0; j < cols + 1; j++){
+            item = new QTableWidgetItem(QString::number(data[i][j].number));
+            ui->normalTable->setItem(i, j, item);
+        }
+    }
+
+    // ------
+    means.resize(cols+1);
+    count_cluster.resize(cols+1);
+    for (i = 0; i < cols + 1; i++){
+        count_cluster[i].resize(term_counts[i]);
+        for (j = 0; j < max_rows; j++){
+            count_cluster[i][data[j][i].cluster] += 1;
+        }
+    }
+    for (i = 0; i < cols + 1; i++){
+        means[i].resize(term_counts[i]);
+        for (j = 0; j < max_rows; j++){
+            means[i][data[j][i].cluster] += data[j][i].number;
+        }
+    }
+    for (i = 0; i < cols + 1; i++){
+        for (j = 0; j < term_counts[i]; j++){
+            if (count_cluster[i][j] > 0){
+                means[i][j] /= count_cluster[i][j];
+            }else{
+                means[i][j] = 0;
+            }
+        }
+    }
 }
 
 void FPWorth::on_openNormalButton_clicked(){
@@ -222,16 +343,15 @@ void FPWorth::on_openNormalButton_clicked(){
     int buf_int, term_num;
     QTableWidgetItem *item;
     ui->progressBar->setValue(0);
-    lvar_size = ui->termSizeEdit->text().toInt();
     fileName = QFileDialog::getOpenFileName(this, tr("Open File"), tr("../.."),
                                             tr("CSV Files (*.csv);;Text Files (*.txt)"));
-    ui->progressBar->setValue(15);
     if (!fileName.isEmpty()){
         csvFile.setFileName(fileName);
         ui->normalFileLabel->setText(fileName);
     }else{
         return;
     }
+    ui->progressBar->setValue(15);
     inputStrList = readFileToStringList(fileName);
     ui->progressBar->setValue(30);
     if (inputStrList.empty()) return;
@@ -279,23 +399,19 @@ void FPWorth::on_openNormalButton_clicked(){
     workplace.setlength(max_rows, 1);
     means.resize(cols + 1);
     count_cluster.resize(cols+1);
-    for (i = 0; i < cols + 1; i++) count_cluster[i].resize(lvar_size);
+    for (i = 0; i < cols + 1; i++) count_cluster[i].resize(term_counts[i]);
     for (i = 0; i < cols + 1; i++){
         ui->progressBar->setValue(60 + ((double)i/cols + 1)*30);
         qSort(data.begin(), data.end(), ByColumn(i));// !!!
         for (j = 0; j < max_rows; j++){
             workplace[j][0] = data[j][i].number;
         }
-
-        //std::cout << names[i].toStdString() << std::endl;
-        //std::cout << workplace.tostring(1) << std::endl;
         alglib::clusterizersetpoints(s, workplace, 2);
-        alglib::clusterizerrunkmeans(s, lvar_size, rep);
+        alglib::clusterizerrunkmeans(s, term_counts[i], rep);
         buf_int = rep.cidx[0];
-        for (j = 0; j < lvar_size; j++){
+        for (j = 0; j < term_counts[i]; j++){
             means[i].append(rep.c[j][0]);
         }
-        // /////////////////////// string_numbers = new int*[lvar_size]; !!!
         qSort(means[i].begin(), means[i].end());
         term_num = 0;
         count_cluster[i][term_num] = 0;
@@ -308,22 +424,20 @@ void FPWorth::on_openNormalButton_clicked(){
             data[j][i].cluster = term_num;
             count_cluster[i][term_num] += 1;
         }
-        //std::cout << rep.cidx.tostring() << std::endl;
-        //std::cout << "=====================" << std::endl;// Print out the clusters !!!
     }
 
 
-    string_numbers = new int*[lvar_size];
-    numbers = new int**[lvar_size];
-    for (i = 0; i < lvar_size; i++){
+    string_numbers = new int*[fire_count];
+    numbers = new int**[fire_count];
+    for (i = 0; i < fire_count; i++){
         numbers[i] = new int*[max_rows];
         string_numbers[i] = new int[max_rows];
         for (j = 0; j < max_rows; j++){
             numbers[i][j] = new int[cols];
         }
     }
-    rows = new int[lvar_size];
-    for (i = 0; i < lvar_size; i++) rows[i] = 0;
+    rows = new int[fire_count];
+    for (i = 0; i < fire_count; i++) rows[i] = 0;
 
     for (i = 0; i < max_rows; i++){
         ui->progressBar->setValue(90 + ((double)i/max_rows)*10);
@@ -341,51 +455,32 @@ void FPWorth::on_openNormalButton_clicked(){
 
 // -- Main functions --
 
-void FPWorth::makeTerms(int **numbers, int rows, int k){
-    int i,j;
-    for (i = 0; i < cols*lvar_size; i++){
-        terms[i].number = i;
-        terms[i].support = 0;
-    }
-    for (i = 0; i < cols; i++){
-        for (j = 0; j < rows; j++){
-            terms[i*lvar_size + numbers[j][i]].support += 1;
-        }
-    }
-    ui->termsTable->setRowCount(lvar_size);
-    ui->termsTable->setColumnCount(cols*lvar_size);
-    QTableWidgetItem *item;
-    for (i = 0; i < cols*lvar_size; i++){
-        item = new QTableWidgetItem(tr("%1_%2")
-                                    .arg(names[i/lvar_size])
-                                    .arg(i % lvar_size));
-        ui->termsTable->setHorizontalHeaderItem(i, item);
-    }
-    for (i = 0; i < cols*lvar_size; i++){
-        item = new QTableWidgetItem(QString::number(terms[i].support));
-        ui->termsTable->setItem(k, i, item);
-    }
-
-    std::sort(&terms[0], &terms[cols*lvar_size], bySupports);
-/*
-    struct level lev_buf;
-    levels.reserve(cols*lvar_size);
-    for (i = 0; i < cols*lvar_size; i++){
-        lev_buf.number = terms[i].number;
-        levels.append(lev_buf);
-    }
-*/
-}
 
 void FPWorth::makeCTree(int **numbers, int rows){
     // add first level
-    int i;
     QVector<int> buf;
-    buf.append(-1);
-    for (i = 0; i < cols*lvar_size; i++){
-        rootCTree->addChild(terms[i], 0, buf);
+    int i,j,index;
+    QVector< QVector<struct term> > terms;
+    index = 0;
+    terms.resize(cols);
+    for (i = 0; i < cols; i++){
+        terms[i].resize(term_counts[i]);
+        for (j = 0; j < term_counts[i]; j++){
+            terms[i][j].lp_number = i;
+            terms[i][j].term_number = j;
+            terms[i][j].support = 0;
+        }
+        for (j = 0; j < rows; j++){
+            terms[i][numbers[j][i]].support += 1;
+        }
     }
-    rootCTree->makeTree(numbers, rows, lvar_size);
+    buf.append(-1);
+    for (i = 0; i < cols; i++){
+        for (j = 0; j < term_counts[i]; j++){
+            rootCTree->addChild(terms[i][j], 0, buf);
+        }
+    }
+    rootCTree->makeTree(numbers, rows);
 }
 
 void FPWorth::findRules(int first, int last, int step){
@@ -393,26 +488,26 @@ void FPWorth::findRules(int first, int last, int step){
     std::sort(frequentPatterns.begin(),frequentPatterns.end(),bySupportPattern);
 }
 
-void FPWorth::printRules(QVector<pattern> frequentPatterns){
+void FPWorth::printRules(QVector<pattern> fpList){
     int i, j;
     QString str;
-    for (i = 0; i < frequentPatterns.size(); i++){
+    for (i = 0; i < fpList.size(); i++){
         str = tr("Если ");
-        for (j = 0; j < frequentPatterns[i].word.size() - 1; j++){
-            str += names[frequentPatterns[i].word[j].number / lvar_size] + tr("{%1} и ").arg(frequentPatterns[i].word[j].number % lvar_size + 1);
+        for (j = 0; j < fpList[i].word.size() - 1; j++){
+            str += names[fpList[i].word[j].lp_number] + tr("{%1} и ").arg(fpList[i].word[j].term_number + 1);
         }
-        str += names[frequentPatterns[i].word[j].number / lvar_size] + tr("{%1}").arg(frequentPatterns[i].word[j].number % lvar_size + 1);
+        str += names[fpList[i].word[j].lp_number] + tr("{%1}").arg(fpList[i].word[j].term_number + 1);
         str += tr(", то %1{%2} / %3% : %4 из %5. ")
                 .arg(names.last())
-                .arg(frequentPatterns[i].cluster+1)
-                .arg(QString::number(((double)frequentPatterns[i].support / frequentPatterns[i].count) * 100.0, 'f', 1))
-                .arg(QString::number(frequentPatterns[i].support))
-                .arg(QString::number(frequentPatterns[i].count));
+                .arg(fpList[i].cluster+1)
+                .arg(QString::number(((double)fpList[i].support / fpList[i].count) * 100.0, 'f', 1))
+                .arg(QString::number(fpList[i].support))
+                .arg(QString::number(fpList[i].count));
         str += tr("Номера строк: ");
-        for (j = 0; j < frequentPatterns[i].str_numbers.size() - 1; j++){
-            str += tr("%1, ").arg(frequentPatterns[i].str_numbers[j] + 1);
+        for (j = 0; j < fpList[i].str_numbers.size() - 1; j++){
+            str += tr("%1, ").arg(fpList[i].str_numbers[j] + 1);
         }
-        str += tr("%1;").arg(frequentPatterns[i].str_numbers[j] + 1);
+        str += tr("%1;").arg(fpList[i].str_numbers[j] + 1);
         new QListWidgetItem(str, ui->rulesListWidget);
     }
 }
@@ -421,27 +516,16 @@ void FPWorth::on_makeRulesAprioriButton_clicked()
 {
     int i;
     QVector<CandidateTree*> rootsCTree;
-    terms = new term[cols*lvar_size];
+    ui->makeRulesBar->setValue(0);
     ui->rulesListWidget->clear();
     fpList.clear();
-    //Reading deltas
-    deltas.clear();
-    deltas.resize(last);
-    if (ui->supportTable->rowCount() == 0){
-        for (i = 0; i < last; i++){
-            deltas[i] = 0;
-        }
-    }else{
-        for (i = 0; i < first; i++){
-            deltas[i] = 0;
-        }
-        for (i = 0; i < ui->supportTable->rowCount(); i ++){
-            deltas[i + first - 1] = ui->supportTable->item(i,0)->text().toDouble();
-        }
-    }
+    // Reading deltas
+    writeFromTableToDeltas();
+    countRules[tableComboPrevIndex] = ui->countRulesEdit->text().toInt();
     //--- end --- deltas
-
-    for (i = 0; i < lvar_size; i++){
+    ui->makeRulesBar->setValue(1);
+    for (i = 0; i < fire_count; i++){
+        ui->makeRulesBar->setValue(1 + ((double)i/fire_count) * 90);
         /*switch (i) {
         case 0:
             new QListWidgetItem(tr("---------------------------------"), ui->rulesListWidget);
@@ -464,21 +548,25 @@ void FPWorth::on_makeRulesAprioriButton_clicked()
             new QListWidgetItem(tr("Катастрофическое количество пожаров:"), ui->rulesListWidget);
             break;
         }*/
-        memset(terms,0,sizeof(term)*cols*lvar_size);
         //levels.clear();
         CandidateTree::levels.clear();
         frequentPatterns.clear();
-        rootCTree = new CandidateTree(deltas, rows[i]);
-        makeTerms(numbers[i], rows[i], i);
+        rootCTree = new CandidateTree(deltas[i], rows[i]);
+        ui->makeRulesBar->setValue(1 + ((double)i/fire_count) * 90 + 5);
         makeCTree(numbers[i], rows[i]);
-        findRules(first, last, i);
+        ui->makeRulesBar->setValue(1 + ((double)i/fire_count) * 90 + 10);
+        findRules(firsts[tableComboPrevIndex], lasts[tableComboPrevIndex], i);
+        ui->makeRulesBar->setValue(1 + ((double)i/fire_count) * 90 + 15);
+        if (countRules[i] != -1){
+            frequentPatterns.resize(countRules[i]);
+        }
         fpList += frequentPatterns;
         //Вывести разделения между правилами и пожары.
         rootsCTree.append(rootCTree);
     }
     printRules(fpList);
-    delete[] terms;
     rootsCTree.clear();
+    ui->makeRulesBar->setValue(100);
 }
 
 
@@ -491,52 +579,46 @@ void FPWorth::on_makePlotButton_clicked(){
     epsx = ui->epsxEdit->text().toDouble();
     maxits = ui->maxitsEdit->text().toDouble();
     diffstep = ui->diffstepEdit->text().toDouble();
-    j = 0;
+    j = ui->plotNamesCombo->currentIndex();
+    ui->plotProgressBar->setValue(0);
     fs = approxGauss(data);
     plot->clear();
-    for (i = 0; i < lvar_size; i++){
-        plot->drawGauss(fs[0][i].mu, fs[0][i].a, fs[0][i].type, i);
-        plot->drawDots(data, means[0][i], fs[0][i].k, i, lvar_size,j);
+    for (i = 0; i < term_counts[j]; i++){
+        ui->plotProgressBar->setValue(95 + ((double)i/(term_counts[j]))*5);
+        if (fs[j][i].mu == -1 || fs[j][i].a == -1){
+            continue;
+        }
+        plot->drawGauss(fs[j][i].mu, fs[j][i].a, fs[j][i].type, i);
+        plot->drawDots(data, means[j][i], fs[j][i].k, i, term_counts[j],j);
     }
     ui->plotNamesCombo->setCurrentIndex(0);
-
-    /*for(j = 0; j < lvar_size; j++){
-        m = means[i][j];
-        max = 0;
-        for (k = 0; k < data.size(); k++){
-            if (data[k][i].cluster == j && fabs(data[k][i].number - m) > max){
-                max = fabs(data[k][i].number - m);
-            }
-        }
-
-    }*/
-    //plot->detachItems();
-    //
+    ui->plotProgressBar->setValue(100);
 }
 
-double funcGauss (double x, double sigma, double mu = 0){
-    return exp(-sigma*(x-mu)*(x-mu));
+double funcGauss(double x, double sigma, double mu){
+    return exp(-(x-mu)*(x-mu)/(2*sigma*sigma));
+}
+
+double funcE(double x, double sigma, double mu){
+    return 1/(1 + exp(-sigma*(x-mu)));
+}
+double funcNE(double x, double sigma, double mu){
+    return 1/(1 + exp(sigma*(x-mu)));
 }
 
 void function_cx_G_func(const alglib::real_1d_array &c, const alglib::real_1d_array &x, double &func, void *ptr)
 {
-    // this callback calculates f(c,x)=exp(-c0*sqr(x0))
-    // where x is a position on X-axis and c is adjustable parameter
-    func = exp(-(x[0]-c[0])*(x[0]-c[0])/(2*c[1]*c[1]));
+    func = funcGauss(x[0], c[1], c[0]);
 }
 
 void function_cx_E_func(const alglib::real_1d_array &c, const alglib::real_1d_array &x, double &func, void *ptr)
 {
-    // this callback calculates f(c,x)=exp(-c0*sqr(x0))
-    // where x is a position on X-axis and c is adjustable parameter
-    func = 1/(1 + exp(-c[1]*(x[0]-c[0])));
+    func = funcE(x[0], c[1], c[0]);
 }
 
 void function_cx_NE_func(const alglib::real_1d_array &c, const alglib::real_1d_array &x, double &func, void *ptr)
 {
-    // this callback calculates f(c,x)=exp(-c0*sqr(x0))
-    // where x is a position on X-axis and c is adjustable parameter
-    func = 1/(1 + exp(c[1]*(x[0]-c[0])));
+    func = funcNE(x[0], c[1], c[0]);
 }
 /*
 void function_NEW_func(const alglib::real_1d_array &c, const alglib::real_1d_array &x, double &func, void *ptr)
@@ -588,18 +670,20 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
     ret.resize(cols+1);
     indexes.resize(cols+1);
     for (j = 0; j < cols+1; j++){
-        xs[j].resize(lvar_size);
-        ys[j].resize(lvar_size);
-        cs[j].resize(lvar_size);
-        indexes[j].resize(lvar_size);
-        ks[j].resize(lvar_size);
-        ret[j].resize(lvar_size);
-        for (i = 0; i < lvar_size; i++){
+        xs[j].resize(term_counts[j]);
+        ys[j].resize(term_counts[j]);
+        cs[j].resize(term_counts[j]);
+        indexes[j].resize(term_counts[j]);
+        ks[j].resize(term_counts[j]);
+        ret[j].resize(term_counts[j]);
+        for (i = 0; i < term_counts[j]; i++){
             indexes[j][i] = 0;
         }
     }
+    ui->plotProgressBar->setValue(5);
     for (i = 0; i < cols+1; i++){
-        for (j = 0; j < lvar_size; j++){
+        ui->plotProgressBar->setValue(5 + ((double)i/(cols+1))*10);
+        for (j = 0; j < term_counts[i]; j++){
             xs[i][j].setlength(count_cluster[i][j],1);
             // Длина real_2d_array для каждого кластера равна количеству эл-тов в кластере.
             ys[i][j].setlength(count_cluster[i][j]);
@@ -609,9 +693,10 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
     }
 
 
-    for (i = 0; i < data.size(); i++){
+    for (i = 0; i < data.size(); i++){ // По всем строкам
+        ui->plotProgressBar->setValue(15 + ((double)i/(data.size())*20));
         // Заполнить xs.
-        for (j = 0; j < data[i].size(); j++){
+        for (j = 0; j < data[i].size(); j++){ // По всем столбцам
             // Для каждого real_2d_array свой индекс.
             xs[j][data[i][j].cluster][ indexes[j][data[i][j].cluster] ][0] = data[i][j].number;
 
@@ -621,8 +706,10 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
     // Data больше не нужна.
 
     // Для этого сначала нужно вычислить k.
+    base_set.resize(cols + 1);
     for (i = 0; i < cols + 1; i++){
-        for (j = 0; j < lvar_size; j++){
+        ui->plotProgressBar->setValue(35 + ((double)i/(cols+1))*20);
+        for (j = 0; j < term_counts[i]; j++){
             max_k = 0;
             for (l = 0; l < xs[i][j].rows(); l++){
                 a = xs[i][j](l,0);
@@ -635,47 +722,73 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
 
             ks[i][j] = max_k;
             ret[i][j].k = max_k;
+            if (j == 0) base_set[i].append(max(means[i][j] - max_k, 0));
+            if (j == term_counts[i] - 1) base_set[i].append(means[i][j] + max_k);
         }
     }
     // Для каждого из xs вычислить ys.
     // Записать cs для каждого.
     for (i = 0; i < cols + 1; i++){
-        for (j = 0; j < lvar_size; j++){
+        ui->plotProgressBar->setValue(55 + ((double)i/(cols+1))*40);
+        for (j = 0; j < term_counts[i]; j++){
+            if (ks[i][j] <  std::numeric_limits<double>::epsilon() &&
+                ks[i][j] > -std::numeric_limits<double>::epsilon()){
+                ret[i][j].a = 1;
+                ret[i][j].mu = 1;
+                if (j == 0){
+                    ret[i][j].type = 2;
+                }else if (j == term_counts[i] - 1){
+                    ret[i][j].type = 1;
+                }else{
+                    ret[i][j].type = 0;
+                }
+                ret[i][j].k = 1;
+                continue;
+            }
+
             for (l = 0; l < ys[i][j].length(); l++){
                 if (j == 0 && xs[i][j](l,0) < means[i][j]){
                     ys[i][j][l] = 1;
-                }else if (j == lvar_size - 1 && xs[i][j](l,0) > means[i][j]){
+                }else if (j == term_counts[i] - 1 && xs[i][j](l,0) > means[i][j]){
                     ys[i][j][l] = 1;
                 }else{
                     ys[i][j][l] = funcNorm(xs[i][j](l,0),ks[i][j],means[i][j]);
                 }
-
             }
 
             //--------
             if (j == 0){
                 cs[i][j][0] = means[i][j] + ks[i][j]/2; // +- k/2
                 cs[i][j][1] = -5 / ks[i][j]; // -?
-            }else if (j == lvar_size - 1){
+            }else if (j == term_counts[i] - 1){
                 cs[i][j][0] = means[i][j] - ks[i][j]/2; // +- k/2
                 cs[i][j][1] = 5 / ks[i][j]; // -?
             }else{
                 cs[i][j][0] = means[i][j]; // +- k/2
                 cs[i][j][1] = dispersio(ys[i][j]);
             }
+            ui->plotProgressBar->setValue(55 + ((double)i/(cols+1))*40 + 1);
+            std::cout << i << ", " << j << std::endl;
+            std::cout << xs[i][j].tostring(2) << "\n----------" << std::endl;
+            std::cout << ys[i][j].tostring(2) << "\n==========" << std::endl;
+            std::cout << cs[i][j].tostring(2) << "\n~~~~~~~~~~" << std::endl;
             alglib::lsfitcreatef(xs[i][j], ys[i][j], cs[i][j], diffstep, state);
+            ui->plotProgressBar->setValue(55 + ((double)i/(cols+1))*40 + 2);
             alglib::lsfitsetcond(state, epsf, epsx, maxits);
+            ui->plotProgressBar->setValue(55 + ((double)i/(cols+1))*40 + 3);
             if (j == 0){
                 ret[i][j].type = 2;
                 alglib::lsfitfit(state, function_cx_NE_func);
-            }else if (j == lvar_size - 1){
+            }else if (j == term_counts[i] - 1){
                 ret[i][j].type = 1;
                 alglib::lsfitfit(state, function_cx_E_func);
             }else{
                 ret[i][j].type = 0;
                 alglib::lsfitfit(state, function_cx_G_func);
             }
+            ui->plotProgressBar->setValue(55 + ((double)i/(cols+1))*40 + 4);
             alglib::lsfitresults(state, info, cs[i][j], rep);
+            ui->plotProgressBar->setValue(55 + ((double)i/(cols+1))*40 + 5);
             err = rep.rmserror;
 
             //========
@@ -685,7 +798,7 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
                     cs[i][j][0] = means[i][j] + ks[i][j]/2 + (((rand()%100)/100.0)*locality*2 - locality); // +- k/2
                     before_mu = cs[i][j][0];
                     cs[i][j][1] = -5 / ks[i][j] + (((rand()%100)/100.0)*locality*2 - locality); // -?
-                }else if (j == lvar_size - 1){
+                }else if (j == term_counts[i] - 1){
                     cs[i][j][0] = means[i][j] - ks[i][j]/2 + (((rand()%100)/100.0)*locality*2 - locality); // +- k/2
                     cs[i][j][1] = 5 / ks[i][j] + (((rand()%100)/100.0)*locality*2 - locality); // -?
                 }else{
@@ -697,7 +810,7 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
                 if (j == 0){
                     ret[i][j].type = 2;
                     alglib::lsfitfit(state, function_cx_NE_func);
-                }else if (j == lvar_size - 1){
+                }else if (j == term_counts[i] - 1){
                     ret[i][j].type = 1;
                     alglib::lsfitfit(state, function_cx_E_func);
                 }else{
@@ -708,14 +821,11 @@ QVector< QVector<struct membershipFunction> > FPWorth::approxGauss(QVector< QVec
                 err = rep.rmserror;
                 iter++;
             }
-            ret[i][j].mu = cs[i][j][0];
-            /*std::cout << j << " before = " << means[i][j] + 10;
-            std::cout << "; after = " << cs[i][j][0];
-            */
-            if (iter == iters){
-                std::cout << i << "," << j << "; err = " << rep.rmserror << std::endl;
+            if (count_cluster[i][j] == 0){
+                ret[i][j].mu = -1;
+                ret[i][j].a = -1;
             }
-
+            ret[i][j].mu = cs[i][j][0];
             ret[i][j].a = cs[i][j][1];
         }
     }
@@ -753,220 +863,25 @@ void FPWorth::ShowContextMenu(const QPoint& pos) // this is a slot
     }
 }
 
-
-/*
-
-void FPWorth::on_makeRulesButton_clicked(){
-    int i, j, k, words_i;
-    terms = new term[cols*lvar_size];
-    rootFPTree = new FPTree();
-
-    ui->rulesPlainText->clear();
-    //Reading deltas
-    deltas.clear();
-    if (ui->supportTable->rowCount() == 0){
-        deltas.append(0);
-    }else{
-        for (i = 0; i < ui->supportTable->rowCount(); i ++){
-            deltas.append(ui->supportTable->item(i,0)->text().toDouble());
-        }
-    }
-    rootCTree = new CandidateTree(deltas);
-    //--- end --- deltas
-    words_i = 0;
-    for (i = 0; i < lvar_size; i++){
-        switch (i) {
-        case 0:
-            ui->rulesPlainText->insertPlainText(tr("---------------------------------\n"));
-            ui->rulesPlainText->insertPlainText(tr("Пожаров мало или они отсутствуют:\n"));
-            break;
-        case 1:
-            ui->rulesPlainText->insertPlainText(tr("---------------------------\n"));
-            ui->rulesPlainText->insertPlainText(tr("Среднее количество пожаров:\n"));
-            break;
-        case 2:
-            ui->rulesPlainText->insertPlainText(tr("---------------------------\n"));
-            ui->rulesPlainText->insertPlainText(tr("Большое количество пожаров:\n"));
-            break;
-        case 3:
-            ui->rulesPlainText->insertPlainText(tr("---------------------------------\n"));
-            ui->rulesPlainText->insertPlainText(tr("Очень большое количество пожаров:\n"));
-
-            break;
-        case 4:
-            ui->rulesPlainText->insertPlainText(tr("------------------------------------\n"));
-            ui->rulesPlainText->insertPlainText(tr("Катастрофическое количество пожаров:\n"));
-            break;
-        }
-        memset(terms,0,sizeof(term)*cols*lvar_size);
-        words.clear();
-        rootFPTree->clear();
-        levels.clear();
-        frequentPatterns.clear();
-        makeTerms(numbers[i], rows[i], i);
-        makeWords(numbers[i], rows[i]);
-        makeTree(rows[i]);
-        makeRules(rows[i], i);
-
-        fpList.append(frequentPatterns);
-        //Вывести разделения между правилами и пожары.
-    }
-}
-
-
-
-void FPWorth::makeWords(int **numbers, int rows, int k){
-    int i, j, first;
-    struct term buf_term;
-    QVector<struct term> word;
-    maxWordSize = 0;
-    for (i = 0; i < rows; i++){
-        j = 0;
-        word.clear();
-        for (j = 0; j < cols*lvar_size; j++){
-            if (numbers[i][terms[j].number / lvar_size] == (terms[j].number % lvar_size)){
-                buf_term.number = terms[j].number;
-                buf_term.support = 1;
-                buf_term.str_num = string_numbers[k][i];
-                word.append(buf_term);
-            }
-        }
-        if (word.size() > maxWordSize){
-            maxWordSize = word.size();
-        }
-        words.append(word);
-    }
-    if (words.size() != rows){
-        QMessageBox::warning(this, tr("Error"), tr("Wrong size of array words"));
-        return;
-    }
-    QTableWidgetItem *item;
-    first = ui->wordsTable->rowCount();
-    ui->wordsTable->setRowCount(first + rows + 1);
-    ui->wordsTable->setColumnCount(cols + maxWordSize);
-
-    for (i = 0; i < cols; i++){
-        item = new QTableWidgetItem(tr("%1").arg(names[i]));
-        ui->wordsTable->setHorizontalHeaderItem(i, item);
-    }
-    for (i = 0; i < rows; i++){
-        for (j = 0; j < cols; j++){
-            item = new QTableWidgetItem(QString::number(numbers[i][j]));
-            ui->wordsTable->setItem(first + i, j, item);
-        }
-        for (j = 0; j < words[i].size(); j++){
-            item = new QTableWidgetItem(QString("%1_%2")
-                                        .arg(names[words[i][j].number/lvar_size])
-                                        .arg(words[i][j].number % lvar_size));
-            ui->wordsTable->setItem(first + i, cols + j, item);
-        }
-    }
-    //ui->normalTable->setColumnCount(cols);
-}
-
-void FPWorth::makeTree(int rows){
-    FPTree *node;
-    int i,j,l;
-    int check;
-    int fl = 0;
-
-    //Add words to FPTree and levels
-    for (i = 0; i < rows; i++){
-        //Add first letter to root
-        if (words[i].size() > 0){
-            check = rootFPTree->addChild(words[i][0], &node);
-            if (check == 1){
-                for (l = 0; l < levels.size(); l++){
-                    if (levels[l].number == node->data.number){
-                        levels[l].nodes.append(node);
-                        break;
-                    }
-                }
-            }
-        }
-        //Add whole words to FPTree
-        for (j = 1; j < words[i].size(); j++){
-            check = node->addChild(words[i][j], &node);
-            if (check == 1){
-                fl = 0;
-                for (l = j; l < levels.size(); l++){
-                    if (levels[l].number == node->data.number){
-                        levels[l].nodes.append(node);
-                        fl = 1;
-                        break;
-                    }
-                }
-                if (!fl){
-                    std::cout << "!!!" << std::endl;
-                    exit(0);
-                }
-            }
-        }
-    }
-    //rootFPTree->postorder(ui->fptreeEdit, 0);
-}
-
-void FPWorth::makeRules(int rows, int f){
-    int i,j;
-    frequentPatterns = rootFPTree->findFP(levels, deltas, rows);
-    std::sort(frequentPatterns.begin(),frequentPatterns.end(),bySupportPattern);
-
-    i = 1;
-    //output Rules.
-
-    for (i = 0; i < frequentPatterns.size(); i++){
-        ui->rulesPlainText->insertPlainText(tr("Если "));
-        for (j = 0; j < frequentPatterns[i].word.size() - 1; j++){
-            ui->rulesPlainText->insertPlainText(names[frequentPatterns[i].word[j].number / lvar_size] + tr("{%1} и ").arg(frequentPatterns[i].word[j].number % lvar_size + 1));
-        }
-        ui->rulesPlainText->insertPlainText(names[frequentPatterns[i].word[j].number / lvar_size] + tr("{%1}").arg(frequentPatterns[i].word[j].number % lvar_size + 1));
-        ui->rulesPlainText->insertPlainText(tr(", то %1{%2} / %3% : %4 из %5. ")
-                                            .arg(names.last())
-                                            .arg(f+1)
-                                            .arg(QString::number(((double)frequentPatterns[i].support / frequentPatterns[i].count) * 100.0, 'f', 1))
-                                            .arg(QString::number(frequentPatterns[i].support))
-                                            .arg(QString::number(frequentPatterns[i].count)));
-        ui->rulesPlainText->insertPlainText(tr("Номера строк: "));
-        for (j = 0; j < frequentPatterns[i].str_numbers.size() - 1; j++){
-            ui->rulesPlainText->insertPlainText(tr("%1, ").arg(frequentPatterns[i].str_numbers[j] + 1));
-        }
-        ui->rulesPlainText->insertPlainText(tr("%1; \n").arg(frequentPatterns[i].str_numbers[j] + 1));
-    }
-}
-
-
-*/
-
-
 void FPWorth::on_okTermButton_clicked()
 {
     int i;
     int size, buf_size, buf_first;
+    int first, last;
     QTableWidgetItem *item;
-    buf_first = first;
+    //buf_first = first;
     first = ui->termCountFirst->text().toInt();
     last = ui->termCountLast->text().toInt();
     if (last < first){
         QMessageBox::warning(this, tr("Error"), tr("First > last"));
+        ui->termCountFirst->setValue(firsts[tableComboPrevIndex]);
+        ui->termCountLast->setValue(lasts[tableComboPrevIndex]);
         return;
     }
-    size = last - first + 1;
-    buf_size = ui->supportTable->rowCount();
-    ui->supportTable->setRowCount(size);
-    if (size > buf_size){
-        for (i = buf_size; i < size; i++){
-            item = new QTableWidgetItem(tr("Уровень %1").arg(first + i));
-            ui->supportTable->setVerticalHeaderItem(i, item);
-            item = new QTableWidgetItem(tr("0"));
-            item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-            ui->supportTable->setItem(i,0,item);
-        }
-    }
-    if (buf_first < first){
-        for (i = 0; i < size; i++){
-            ui->supportTable->verticalHeaderItem(i)->setText(tr("Уровень %1").arg(first + i));
-        }
-    }
+    firsts[tableComboPrevIndex] = first;
+    lasts[tableComboPrevIndex] = last;
+    deltas[tableComboPrevIndex].resize(last);
+    writeFromDeltasToTable(tableComboPrevIndex);
 }
 
 void FPWorth::on_rulesListWidget_doubleClicked(const QModelIndex &index)
@@ -1019,32 +934,143 @@ void FPWorth::on_clearFuzzyButton_clicked()
     }
 }
 
-
-
-
 void FPWorth::on_nnpsButton_clicked()
 {
-    /*
-     * 0. Всё выполняем для каждого из терма л.п. "пожары" отдельно.
-     * 1. Аппроксимировать все графики. approxGauss(data, &m, &sigma, max, j);
-     * 1.1. Получить набор переменных функций. sigma и mu
-     * 2. Эти функции и будут функциями принадлежности. Их нужно правильно разложить.
-     * 3. Первый слой выполняется автоматически, когда мы подставляем значения
-     * в правила. В правило ставится mu(x_i).
-     * 4. Дальше идёт агрегирование.
-     * 5.
-     * Небольшой прирост к скорости:
-     * Переставить местами строки и столбцы. Чаще идёт работа по столбцам, а не по строкам.
-     *
-    //0.
-    int i;
-    QVector< QVector<struct membershipFunction> > funcs; // all membership functions
-    funcs.resize(cols + 1);
-    for (i = 0; i < lvar_size; i++){
-        //1.
+    QVector<double> xs;
+    QVector< QVector<double> > mus;
+    QVector< QVector<double> > alphas;
+    int accuracy = 10000;
+    double eps = 1.0 / accuracy;
+    double step;
+    int i, j, l, maxf_i;
+    double min_mu, alpha, max_alpha, min_beta, maxf;
+    double f;
+    double integral_summ, center;
+    QVector<double> max_alphas;
+    xs.resize(cols);
+    double point;
+    for (i = 0; i < cols; i++){
+        xs[i] = ui->inputNnpsTable->item(1,i)->text().toDouble();
+    }
+    ui->progressBar_nnps->setValue(10);
+    mus.resize(cols);
+    for (i = 0; i < cols; i++){
+        ui->progressBar_nnps->setValue(10 + ((double)i/cols)*20);
+        mus[i].resize(term_counts[i]);
+        for (j = 0; j < term_counts[i]; j++){
+            if (fs[i][j].type == 0){
+                mus[i][j] = funcGauss(xs[i],fs[i][j].a,fs[i][j].mu);
+            }else if(fs[i][j].type == 1){
+                mus[i][j] = funcE(xs[i],fs[i][j].a,fs[i][j].mu);
+            }else{
+                mus[i][j] = funcNE(xs[i],fs[i][j].a,fs[i][j].mu);
+            }
+        }
+    }
+    ui->progressBar_nnps->setValue(30);
+    // alphas
+    alphas.resize(fire_count);
+    max_alphas.resize(fire_count);
+    i = fpList[0].cluster;
+    max_alpha = 0;
+    for (j = 0; j < fpList.size(); j++){
+        ui->progressBar_nnps->setValue(30 + ((double)j/fpList.size())*40);
+        min_mu = 1;
+        for (l = 0; l < fpList[j].word.size(); l++){ // min mus for rule
+            min_mu = min(mus[fpList[j].word[l].lp_number][fpList[j].word[l].term_number], min_mu);
+        }
+        if (ui->suppRulesCheckBox->isChecked()){
+            alpha = min_mu*((double)fpList[j].support/fpList[j].count);//supp(Ri) * min(mus)
+        }else{
+            alpha = min_mu;
+        }
 
-        approxGauss(data, funcs, i);
-    }*/
+        if (fpList[j].cluster != i){
+            max_alphas[i] = max_alpha; // For each Fire.
+            std::cout << " - " << max_alpha << std::endl;
+            max_alpha = 0;
+            i = fpList[j].cluster;
+        }
+        max_alpha = max(max_alpha, alpha);//max alpha from all the rules
+        alphas[fpList[j].cluster].append(alpha);
+
+
+    }
+    max_alphas[fpList[j-1].cluster] = max_alpha; // For each Fire.
+    std::cout << " - " << max_alpha << std::endl;
+    ui->progressBar_nnps->setValue(70);
+    // For all alphas or only for each Fires ??????????????????????????????????????????
+    // Normalize
+    //for (j = 0; j < alphas[j].size(); j++){
+    //    alphas[i][j] = alphas[i][j] / max_alpha;
+    //}
+    //}
+    // Normalize ?
+    // Defuzzyfication
+
+    // Нужно переделывать таким образом, чтобы интегрирование шло правильным образом.
+    // Не учитывается текущая таблица fires.
+
+    // Находим каждый шаг максимум между всеми (или текущим, предыдущим, следующим) и max_alpas[i].
+    // f = funcGauss(point, fs[cols][i].a, fs[cols][i].mu);
+    //integrate
+    integral_summ = 0;
+    step = (base_set[cols][1] - base_set[cols][0])/accuracy;
+    nnpsPlot->clear();
+    for (point = base_set[cols][0]; point < base_set[cols][1]; point += step){
+        ui->progressBar_nnps->setValue(70 + (point/(base_set[cols][1] - base_set[cols][0])*20));
+        maxf = 0;
+        //Пройти по всем из fire_count. Найти максимум. Потом минимум его и mu.
+        for (i = 0; i < fire_count; i++){
+            if (fs[cols][i].type == 0){
+                f = funcGauss(point, fs[cols][i].a, fs[cols][i].mu);
+            }else if (fs[cols][i].type == 1){
+                f = funcE(point, fs[cols][i].a, fs[cols][i].mu);
+            }else{
+                f = funcNE(point, fs[cols][i].a, fs[cols][i].mu);
+            }
+            if (f > maxf){
+                maxf = f;
+                maxf_i = i;
+            }
+        }
+        maxf = min(maxf, max_alphas[maxf_i]); // Cut function
+        nnpsPlot->addPoint(point, maxf);
+        integral_summ += step*maxf;
+    }
+    nnpsPlot->drawPoints();
+    center = 0;
+    for (point = base_set[cols][0]; point < base_set[cols][1]; point += step){
+        ui->progressBar_nnps->setValue(90 + (point/(base_set[cols][1] - base_set[cols][0])*9));
+        maxf = 0;
+        //Пройти по всем из fire_count. Найти максимум. Потом минимум его и mu.
+        for (i = 0; i < fire_count; i++){
+            if (fs[cols][i].type == 0){
+                f = funcGauss(point, fs[cols][i].a, fs[cols][i].mu);
+            }else if (fs[cols][i].type == 1){
+                f = funcE(point, fs[cols][i].a, fs[cols][i].mu);
+            }else{
+                f = funcNE(point, fs[cols][i].a, fs[cols][i].mu);
+            }
+            if (f > maxf){
+                maxf = f;
+                maxf_i = i;
+            }
+        }
+        maxf = min(maxf, max_alphas[maxf_i]); // Cut function
+        center += step*maxf;
+        if (center > integral_summ/2) break;
+    }
+    center = point;
+    min_beta = 1;
+    ui->progressBar_nnps->setValue(99);
+    for (i = 0; i < fire_count; i++){
+        if (max_alphas[i] < min_beta) min_beta = max_alphas[i];
+    }
+
+    ui->fireCountLabel->setText(QString::number(center));
+    ui->probLabel->setText(QString::number(min_beta));
+    ui->progressBar_nnps->setValue(100);
 }
 
 void FPWorth::on_lvarPlotButton_clicked()
@@ -1058,12 +1084,12 @@ void FPWorth::on_lvarPlotButton_clicked()
     plot->clear();
     j = ui->plotNamesCombo->currentIndex();
     //fs = approxGauss(data);
-    for (i = 0; i < lvar_size; i++){
+    for (i = 0; i < term_counts[j]; i++){
         std::cout << i << " before = " << means[j][i];
         std::cout << "; after = " << fs[j][i].mu << std::endl;
         plot->drawGauss(fs[j][i].mu, fs[j][i].a, fs[j][i].type, i);
         //std::cout << ; // !!!
-        plot->drawDots(data, means[j][i], fs[j][i].k, i, lvar_size, j);
+        plot->drawDots(data, means[j][i], fs[j][i].k, i, term_counts[j], j);
     }
 }
 
@@ -1071,7 +1097,39 @@ void FPWorth::on_clearPlotButton_clicked()
 {
     plot->clear();
 }
+void FPWorth::writeFromTableToDeltas(){
+    int i,j;
+    deltas[tableComboPrevIndex].resize(lasts[tableComboPrevIndex]);
+    for (i = 0; i < firsts[tableComboPrevIndex]-1; i++){
+        deltas[tableComboPrevIndex][i] = 0;
+    }
+    for (j = i; j < lasts[tableComboPrevIndex]; j++){
+        deltas[tableComboPrevIndex][j] = ui->supportTable->item(j-i,0)->text().toDouble();
+    }
+}
 
-//0.000000000000001 -- 3
-//	0.0000000000001 -- 2
-// 0.0000000000000001
+void FPWorth::writeFromDeltasToTable(int index){
+    int i;
+    ui->supportTable->setRowCount(lasts[index] - firsts[index] + 1);
+    ui->termCountFirst->setValue(firsts[index]);
+    ui->termCountLast->setValue(lasts[index]);
+
+    for (i = firsts[index]-1; i < lasts[index]; i++){
+        ui->supportTable->setItem(i - firsts[index] + 1, 0, new QTableWidgetItem(QString::number(deltas[index][i])));
+        ui->supportTable->setVerticalHeaderItem(i - firsts[index] + 1, new QTableWidgetItem(tr("Уровень %1").arg(i+1)));
+    }
+}
+
+void FPWorth::on_tableCombo_currentIndexChanged(int index)
+{
+    int i,j;
+    writeFromTableToDeltas();
+    writeFromDeltasToTable(index);
+    countRules[tableComboPrevIndex] = ui->countRulesEdit->text().toInt();
+    ui->countRulesEdit->setText(QString::number(countRules[index]));
+    tableComboPrevIndex = index;
+}
+void FPWorth::on_countRulesEdit_returnPressed()
+{
+    countRules[tableComboPrevIndex] = ui->countRulesEdit->text().toInt();
+}

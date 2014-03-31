@@ -52,6 +52,10 @@ Plot::Plot(QWidget *parent):
     mX->setLinePen( Qt::black, 0, Qt::DashDotLine );
     mX->setXValue( 0 );
     mX->attach( this );
+
+//    curvePoints = new QwtPlotCurve();
+//    curvePoints->setStyle( QwtPlotCurve::Dots );
+//    curvePoints->attach( this );
 }
 
 bool bySize(const QVector<struct pattern> &v1, const QVector<struct pattern> &v2){
@@ -173,10 +177,23 @@ void Plot::drawDots(QVector< QVector<struct numCluster> > data, double n, double
     this->replot();
 }
 
+void Plot::addPoint(double x, double y){
+    pointsArr << QPointF(x, y);
+}
+
+void Plot::drawPoints(){
+    QwtPlotCurve *curvePoints;
+    curvePoints = new QwtPlotCurve();
+    curvePoints->setPen(Qt::green);
+    curvePoints->setSamples(pointsArr);
+    curvePoints->attach(this);
+    this->replot();
+}
+
 void Plot::clear()
 {
     this->detachItems();
-
+    pointsArr.clear();
     QwtPlotMarker *mY = new QwtPlotMarker();
     mY->setLabel( QString::fromLatin1( "y = 0" ) );
     mY->setLabelAlignment( Qt::AlignRight | Qt::AlignTop );

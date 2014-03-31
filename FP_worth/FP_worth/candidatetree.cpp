@@ -6,7 +6,8 @@ QVector< QVector<CandidateTree*> > CandidateTree::levels;
 CandidateTree::CandidateTree(QVector<double> ds, int rs)
 {
     father = NULL;
-    data.number = -1;
+    data.lp_number = -1;
+    data.term_number = -1;
     data.support = -1;
     level = -1;
     deltas = ds;
@@ -45,11 +46,11 @@ void CandidateTree::addChild(struct term d, int supp, QVector<int> str_nums)
     }
 }
 
-void CandidateTree::makeTree(int **numbers, int rows, int lvar_size)
+void CandidateTree::makeTree(int **numbers, int rows)
 {
     int i, j, k, l;
     CandidateTree *node;
-    QVector<int> currentTerms;
+    QVector<struct term> currentTerms;
     QVector<int> str_nums;
     int currentSupp;
     int fl;
@@ -61,14 +62,14 @@ void CandidateTree::makeTree(int **numbers, int rows, int lvar_size)
             currentSupp = 0;
             currentTerms.reserve(children[j]->level + 1);
             str_nums.reserve(children[j]->level + 1);
-            currentTerms.append(children[j]->data.number);
+            currentTerms.append(children[j]->data);
             for (node = children[i]; node->father != NULL; node = node->father){
-                currentTerms.append(node->data.number);
+                currentTerms.append(node->data);
             }
             for (l = 0; l < rows; l++){
                 fl = 1;
                 for (k = 0; k < currentTerms.size(); k++){
-                    if (numbers[l][currentTerms[k] / lvar_size] != currentTerms[k] % lvar_size){
+                    if (numbers[l][currentTerms[k].lp_number] != currentTerms[k].term_number){
                         fl = 0;
                         break;
                         // String numbers maybe here
@@ -83,7 +84,7 @@ void CandidateTree::makeTree(int **numbers, int rows, int lvar_size)
                 children[i]->addChild(children[j]->data, currentSupp, str_nums);
             }
         }
-        children[i]->makeTree(numbers, rows, lvar_size);
+        children[i]->makeTree(numbers, rows);
     }
 }
 
@@ -117,9 +118,9 @@ void CandidateTree::printTree()
 {
     int i;
 
-    std::cout << data.number << " <-- level: " << level + 1 << std::endl;
+    std::cout << data.lp_number << " <-- level: " << level + 1 << std::endl;
     for (i = 0; i < children.size(); i++){
-        std::cout << children[i]->data.number << "," << children[i]->data.support << " | ";
+        std::cout << children[i]->data.lp_number << "," << children[i]->data.support << " | ";
     }
     std::cout << std::endl;
     std::cout << "===" << std::endl;
