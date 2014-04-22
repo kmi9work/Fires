@@ -39,7 +39,7 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="tabsClosable">
         <bool>false</bool>
@@ -1741,6 +1741,7 @@
           <number>0</number>
          </property>
         </widget>
+<<<<<<< HEAD
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="geometry">
           <rect>
@@ -2159,6 +2160,8 @@
           <string>Magic Button</string>
          </property>
         </widget>
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
        </widget>
        <widget class="QWidget" name="tab_6">
         <attribute name="title">
@@ -2327,6 +2330,7 @@
               <set>AlignLeft|AlignVCenter</set>
              </property>
             </item>
+<<<<<<< HEAD
            </widget>
           </item>
           <item>
@@ -2361,6 +2365,58 @@
                <string>5</string>
               </property>
              </widget>
+=======
+            <item row="1" column="0">
+             <property name="text">
+              <string>0</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignLeft|AlignVCenter</set>
+             </property>
+            </item>
+            <item row="2" column="0">
+             <property name="text">
+              <string>0</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignLeft|AlignVCenter</set>
+             </property>
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_20">
+            <item>
+             <widget class="QLabel" name="label_18">
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Количество правил:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="countRulesEdit">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>-1</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -2368,6 +2424,13 @@
            <widget class="QPushButton" name="makeRulesAprioriButton">
             <property name="text">
              <string>Построить правила</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QProgressBar" name="makeRulesBar">
+            <property name="value">
+             <number>0</number>
             </property>
            </widget>
           </item>
@@ -2489,7 +2552,11 @@
               </item>
               <item row="1" column="0">
                <property name="text">
+<<<<<<< HEAD
                 <string>-1,50</string>
+=======
+                <string>-1.50</string>
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
                </property>
               </item>
               <item row="1" column="1">
@@ -2499,7 +2566,11 @@
               </item>
               <item row="1" column="2">
                <property name="text">
+<<<<<<< HEAD
                 <string>0,74</string>
+=======
+                <string>0.74</string>
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
                </property>
               </item>
               <item row="1" column="3">
@@ -2509,32 +2580,56 @@
               </item>
               <item row="1" column="4">
                <property name="text">
+<<<<<<< HEAD
                 <string>6,33</string>
+=======
+                <string>6.33</string>
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
                </property>
               </item>
               <item row="1" column="5">
                <property name="text">
+<<<<<<< HEAD
                 <string>6,34</string>
+=======
+                <string>6.34</string>
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
                </property>
               </item>
               <item row="1" column="6">
                <property name="text">
+<<<<<<< HEAD
                 <string>6,22</string>
+=======
+                <string>6.22</string>
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
                </property>
               </item>
               <item row="1" column="7">
                <property name="text">
+<<<<<<< HEAD
                 <string>0,36</string>
+=======
+                <string>0.36</string>
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
                </property>
               </item>
               <item row="1" column="8">
                <property name="text">
+<<<<<<< HEAD
                 <string>4,77</string>
+=======
+                <string>4.77</string>
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
                </property>
               </item>
               <item row="1" column="9">
                <property name="text">
+<<<<<<< HEAD
                 <string>8,35</string>
+=======
+                <string>8.35</string>
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
                </property>
               </item>
              </widget>
@@ -2652,7 +2747,11 @@
                <property name="geometry">
                 <rect>
                  <x>140</x>
+<<<<<<< HEAD
                  <y>10</y>
+=======
+                 <y>20</y>
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
                  <width>61</width>
                  <height>16</height>
                 </rect>
@@ -2674,6 +2773,7 @@
                 <string/>
                </property>
               </widget>
+<<<<<<< HEAD
               <widget class="QLabel" name="fireCountLabel_2">
                <property name="geometry">
                 <rect>
@@ -2687,6 +2787,8 @@
                 <string/>
                </property>
               </widget>
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
              </widget>
             </item>
             <item>
@@ -2716,6 +2818,7 @@
           </rect>
          </property>
         </widget>
+<<<<<<< HEAD
         <widget class="QPushButton" name="pushButton">
          <property name="geometry">
           <rect>
@@ -2963,6 +3066,8 @@
           <string/>
          </property>
         </widget>
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
        </widget>
        <widget class="QWidget" name="tab_2">
         <attribute name="title">

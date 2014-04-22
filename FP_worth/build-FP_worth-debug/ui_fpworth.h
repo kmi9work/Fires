@@ -184,6 +184,7 @@ public:
     QLabel *label_17;
     QLabel *fireCountLabel;
     QLabel *probLabel;
+<<<<<<< HEAD:FP_worth/build-FP_worth-debug/ui_fpworth.h
     QLabel *fireCountLabel_2;
     QSpacerItem *horizontalSpacer_13;
     QWidget *plotWidget_nnps;
@@ -201,6 +202,9 @@ public:
     QLabel *fireErrorLabel_min_i_1;
     QLabel *fireErrorLabel_max_i;
     QLabel *fireErrorLabel_max_i_1;
+=======
+    QSpacerItem *horizontalSpacer_13;
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81:FP_worth/build-FP_worth-Desktop_Qt_5_2_0_MinGW_32bit-Выпуск/ui_fpworth.h
     QWidget *tab_2;
     QLabel *label_3;
     QTableWidget *termsTable;
@@ -1226,6 +1230,7 @@ public:
         label_17->setGeometry(QRect(210, 20, 71, 16));
         fireCountLabel = new QLabel(groupBox_2);
         fireCountLabel->setObjectName(QStringLiteral("fireCountLabel"));
+<<<<<<< HEAD:FP_worth/build-FP_worth-debug/ui_fpworth.h
         fireCountLabel->setGeometry(QRect(140, 10, 61, 16));
         probLabel = new QLabel(groupBox_2);
         probLabel->setObjectName(QStringLiteral("probLabel"));
@@ -1233,6 +1238,12 @@ public:
         fireCountLabel_2 = new QLabel(groupBox_2);
         fireCountLabel_2->setObjectName(QStringLiteral("fireCountLabel_2"));
         fireCountLabel_2->setGeometry(QRect(140, 30, 61, 16));
+=======
+        fireCountLabel->setGeometry(QRect(140, 20, 61, 16));
+        probLabel = new QLabel(groupBox_2);
+        probLabel->setObjectName(QStringLiteral("probLabel"));
+        probLabel->setGeometry(QRect(290, 20, 61, 16));
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81:FP_worth/build-FP_worth-Desktop_Qt_5_2_0_MinGW_32bit-Выпуск/ui_fpworth.h
 
         horizontalLayout_17->addWidget(groupBox_2);
 
@@ -1243,6 +1254,7 @@ public:
 
         verticalLayout_6->addLayout(horizontalLayout_17);
 
+<<<<<<< HEAD:FP_worth/build-FP_worth-debug/ui_fpworth.h
         plotWidget_nnps = new QWidget(tab_7);
         plotWidget_nnps->setObjectName(QStringLiteral("plotWidget_nnps"));
         plotWidget_nnps->setGeometry(QRect(10, 280, 981, 281));
@@ -1303,6 +1315,8 @@ public:
         fireErrorLabel_max_i_1->setObjectName(QStringLiteral("fireErrorLabel_max_i_1"));
         fireErrorLabel_max_i_1->setGeometry(QRect(810, 150, 71, 31));
         fireErrorLabel_max_i_1->setFont(font3);
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81:FP_worth/build-FP_worth-Desktop_Qt_5_2_0_MinGW_32bit-Выпуск/ui_fpworth.h
         tabWidget->addTab(tab_7, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
@@ -1355,9 +1369,13 @@ public:
 
         retranslateUi(FPWorth);
 
+<<<<<<< HEAD:FP_worth/build-FP_worth-debug/ui_fpworth.h
         tabWidget->setCurrentIndex(0);
         stackedWidget->setCurrentIndex(0);
         tableCombo->setCurrentIndex(0);
+=======
+        tabWidget->setCurrentIndex(5);
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81:FP_worth/build-FP_worth-Desktop_Qt_5_2_0_MinGW_32bit-Выпуск/ui_fpworth.h
 
 
         QMetaObject::connectSlotsByName(FPWorth);
@@ -1779,6 +1797,7 @@ public:
         label_17->setText(QApplication::translate("FPWorth", "\320\222\320\265\321\200\320\276\321\217\321\202\320\275\320\276\321\201\321\202\321\214", 0));
         fireCountLabel->setText(QString());
         probLabel->setText(QString());
+<<<<<<< HEAD:FP_worth/build-FP_worth-debug/ui_fpworth.h
         fireCountLabel_2->setText(QString());
         pushButton->setText(QApplication::translate("FPWorth", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214 \320\264\320\260\320\275\320\275\321\213\320\265 \320\264\320\273\321\217 \320\276\320\277\321\200\320\265\320\264\320\265\320\273\320\265\320\275\320\270\321\217 \320\276\321\210\320\270\320\261\320\272\320\270", 0));
         label_32->setText(QApplication::translate("FPWorth", "\320\236\321\210\320\270\320\261\320\272\320\260:", 0));
@@ -1794,6 +1813,8 @@ public:
         fireErrorLabel_min_i_1->setText(QString());
         fireErrorLabel_max_i->setText(QString());
         fireErrorLabel_max_i_1->setText(QString());
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81:FP_worth/build-FP_worth-Desktop_Qt_5_2_0_MinGW_32bit-Выпуск/ui_fpworth.h
         tabWidget->setTabText(tabWidget->indexOf(tab_7), QApplication::translate("FPWorth", "\320\235\320\235\320\237\320\241", 0));
         label_3->setText(QApplication::translate("FPWorth", "<h3>\320\241\321\203\320\274\320\274\320\260\321\200\320\275\321\213\320\265 \320\277\320\276\320\264\320\264\320\265\321\200\320\266\320\272\320\270 \321\202\320\265\321\200\320\274\320\276\320\262:</h3>", 0));
         label_6->setText(QApplication::translate("FPWorth", "<h3>\320\224\320\260\320\275\320\275\321\213\320\265 \321\201 \320\277\320\276\321\201\321\202\321\200\320\276\320\265\320\275\320\275\321\213\320\274\320\270 \321\201\320\273\320\276\320\262\320\260\320\274\320\270:</h3>", 0));

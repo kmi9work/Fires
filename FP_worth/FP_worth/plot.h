@@ -62,10 +62,13 @@ public:
     void clear();
     void addPoint(double x, double y);
     void drawPoints();
+<<<<<<< HEAD
     void setLegend(QString axis);
     void drawLine(QColor color);
     void setBaseSet(QVector<double> bs);
     void drawVLine(double x);
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
 protected:
     //virtual void resizeEvent( QResizeEvent * );
 
@@ -73,7 +76,10 @@ private:
     void updateGradient();
     QPolygonF pointsArr;
     QwtPlotCurve *curvePoints;
+<<<<<<< HEAD
     QwtPlotZoomer *zoom;
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
 };
 
 #endif // PLOT_H

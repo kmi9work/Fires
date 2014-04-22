@@ -32,11 +32,11 @@ def get_links_sections url
   sections.uniq!
   return [links, sections]
 end
-f_links = File.open "links.txt", 'w+'
-f_sections = File.open "sections.txt", 'w+'
+f_links = File.open "links_krasnoyarsk.txt", 'w+'
+f_sections = File.open "sections_krasnoyarsk.txt", 'w+'
 
 meteo_ids = {}
-links, sections = *get_links_sections('http://rp5.ru/%D0%9F%D0%BE%D0%B3%D0%BE%D0%B4%D0%B0_%D0%B2_%D0%90%D0%BC%D1%83%D1%80%D1%81%D0%BA%D0%BE%D0%B9_%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D0%B8')
+links, sections = *get_links_sections('http://rp5.ru/%D0%9F%D0%BE%D0%B3%D0%BE%D0%B4%D0%B0_%D0%B2_%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0%BE%D1%8F%D1%80%D1%81%D0%BA%D0%BE%D0%BC_%D0%BA%D1%80%D0%B0%D0%B5')
 
 sections.each do |section|
   print "get links..."
@@ -59,7 +59,7 @@ puts "links collected"
 
 links.each do |key, value|
   puts value
-  f_ids = File.open('ids.txt', 'a+')
+  f_ids = File.open('ids_krasnoyarsk.txt', 'a+')
   sleep(rand(10) + 2)
   while true
     begin

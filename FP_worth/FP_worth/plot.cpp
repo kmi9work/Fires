@@ -42,6 +42,7 @@ Plot::Plot(QWidget *parent):
 
     //  ...a horizontal line at y = 0...
 
+<<<<<<< HEAD
 //    curvePoints = new QwtPlotCurve();
 //    curvePoints->setStyle( QwtPlotCurve::Dots );
 //    curvePoints->attach( this );
@@ -50,6 +51,21 @@ Plot::Plot(QWidget *parent):
 
 void Plot::setLegend(QString axis){
     setAxisTitle( xBottom, axis );
+=======
+    //  ...a vertical line at x = 0
+    QwtPlotMarker *mX = new QwtPlotMarker();
+    mX->setLabel( QString::fromLatin1( "x = 0" ) );
+    mX->setLabelAlignment( Qt::AlignLeft | Qt::AlignBottom );
+    mX->setLabelOrientation( Qt::Vertical );
+    mX->setLineStyle( QwtPlotMarker::VLine );
+    mX->setLinePen( Qt::black, 0, Qt::DashDotLine );
+    mX->setXValue( 0 );
+    mX->attach( this );
+
+//    curvePoints = new QwtPlotCurve();
+//    curvePoints->setStyle( QwtPlotCurve::Dots );
+//    curvePoints->attach( this );
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
 }
 
 bool bySize(const QVector<struct pattern> &v1, const QVector<struct pattern> &v2){
@@ -176,6 +192,7 @@ void Plot::addPoint(double x, double y){
     pointsArr << QPointF(x, y);
 }
 
+<<<<<<< HEAD
 void Plot::drawLine(QColor color){
     QwtPlotCurve *curvePoints;
     curvePoints = new QwtPlotCurve();
@@ -186,6 +203,8 @@ void Plot::drawLine(QColor color){
     pointsArr.clear();
 }
 
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
 void Plot::drawPoints(){
     QwtPlotCurve *curvePoints;
     curvePoints = new QwtPlotCurve();
@@ -200,6 +219,7 @@ void Plot::clear()
     QwtPlotGrid *grid;
     this->detachItems();
     pointsArr.clear();
+<<<<<<< HEAD
 
     //  ...a horizontal line at y = 1...
     QwtPlotMarker *mY1 = new QwtPlotMarker();
@@ -210,6 +230,8 @@ void Plot::clear()
     mY1->setLinePen(Qt::black, 1, Qt::DashLine);
     mY1->attach( this );
 
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
     QwtPlotMarker *mY = new QwtPlotMarker();
     mY->setLabel( QString::fromLatin1( "y = 0" ) );
     mY->setLabelAlignment( Qt::AlignRight | Qt::AlignTop );

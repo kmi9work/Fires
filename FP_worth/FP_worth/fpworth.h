@@ -92,6 +92,7 @@ private slots:
 
     void on_countRulesEdit_returnPressed();
 
+<<<<<<< HEAD
     void on_fire1Box_a_valueChanged(double arg1);
 
     void on_fire1Box_b_valueChanged(double arg1);
@@ -127,6 +128,8 @@ private slots:
 
     void on_coordRp5_clicked();
 
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
 private:
     void printNumbers(QTableWidget *table, int max_rows, int add, int start_x, int start_y);
     void splitColumns();
@@ -136,9 +139,15 @@ private:
     void makeRules(int rows, int f);
 
     int cols; // number of lvars without Fires
+<<<<<<< HEAD
     QVector<int> rows;
     QVector< QVector< QVector<int> > > numbers; // Обыкновенные числа
     //QVector< QVector<int> > string_numbers;
+=======
+    int *rows;
+    int ***numbers; // Обыкновенные числа
+    int **string_numbers; // Номера строк
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
     int global_i;
     int word_count;
     int maxWordSize;
@@ -186,11 +195,14 @@ private:
     void printRules(QVector<pattern> fpList);
     void writeFromTableToDeltas();
     void writeFromDeltasToTable(int index);
+<<<<<<< HEAD
     void nnpsCalc(QVector<double> xs, double *fire1, double *fire2, double *prod);
     void drawTerm(int i, int j);
 
     QNetworkAccessManager * mgr;
     void getRp5Data(QDate dFrom, QDate dTo, QString id);
+=======
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
 };
 
 #endif // FPWORTH_H

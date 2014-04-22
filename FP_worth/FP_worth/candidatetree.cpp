@@ -46,7 +46,11 @@ void CandidateTree::addChild(struct term d, int supp, QVector<int> str_nums)
     }
 }
 
+<<<<<<< HEAD
 void CandidateTree::makeTree(QVector< QVector<int> > numbers, int rows)
+=======
+void CandidateTree::makeTree(int **numbers, int rows)
+>>>>>>> 6d084f1711d10ebe1a9fa385851bf172d0516d81
 {
     int i, j, k, l;
     CandidateTree *node;
