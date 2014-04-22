@@ -11,11 +11,11 @@ Plot::Plot(QWidget *parent):
     insertLegend( new QwtLegend(), QwtPlot::RightLegend );
 
     // axes
-    setAxisTitle( xBottom, "Температура -->" );
-    setAxisScale( xBottom, 0.0, 10.0 );
+    setAxisTitle( xBottom, "" );
+    setAxisScale( xBottom, 0.0, 60.0 );
 
     setAxisTitle( yLeft, "Функция принадлежности -->" );
-    setAxisScale( yLeft, 0, 2 );
+    setAxisScale( yLeft, -0.1, 1.1 );
 
     // canvas
     QwtPlotCanvas *canvas = new QwtPlotCanvas();
@@ -30,28 +30,26 @@ Plot::Plot(QWidget *parent):
     setCanvas( canvas );
 
     // panning with the left mouse button
-    ( void ) new QwtPlotPanner( canvas );
+    //( void ) new QwtPlotPanner( canvas );
 
     // zoom in/out with the wheel
     ( void ) new QwtPlotMagnifier( canvas );
 
-    //  ...a horizontal line at y = 0...
-    QwtPlotMarker *mY = new QwtPlotMarker();
-    mY->setLabel( QString::fromLatin1( "y = 0" ) );
-    mY->setLabelAlignment( Qt::AlignRight | Qt::AlignTop );
-    mY->setLineStyle( QwtPlotMarker::HLine );
-    mY->setYValue( 0.0 );
-    mY->attach( this );
+    zoom = new QwtPlotZoomer(canvas);
+    zoom->setRubberBandPen(QPen(Qt::red));
 
-    //  ...a vertical line at x = 0
-    QwtPlotMarker *mX = new QwtPlotMarker();
-    mX->setLabel( QString::fromLatin1( "x = 0" ) );
-    mX->setLabelAlignment( Qt::AlignLeft | Qt::AlignBottom );
-    mX->setLabelOrientation( Qt::Vertical );
-    mX->setLineStyle( QwtPlotMarker::VLine );
-    mX->setLinePen( Qt::black, 0, Qt::DashDotLine );
-    mX->setXValue( 0 );
-    mX->attach( this );
+    clear();
+
+    //  ...a horizontal line at y = 0...
+
+//    curvePoints = new QwtPlotCurve();
+//    curvePoints->setStyle( QwtPlotCurve::Dots );
+//    curvePoints->attach( this );
+}
+
+
+void Plot::setLegend(QString axis){
+    setAxisTitle( xBottom, axis );
 }
 
 bool bySize(const QVector<struct pattern> &v1, const QVector<struct pattern> &v2){
@@ -123,7 +121,8 @@ void Plot::drawDots(QVector< QVector<struct numCluster> > data, double n, double
     QwtSymbol *symbol;
 
     points.clear();
-    curve = new QwtPlotCurve("y = norm(x)");
+    curve = new QwtPlotCurve();//QString("y = norm%1(x)").arg(index));
+    curve->setItemAttribute(QwtPlotItem::Legend, false);
     curve->setStyle( QwtPlotCurve::Dots );
     for (l = 0; l < data.size(); l++){
         if (data[l][number].cluster == index){
@@ -173,9 +172,43 @@ void Plot::drawDots(QVector< QVector<struct numCluster> > data, double n, double
     this->replot();
 }
 
+void Plot::addPoint(double x, double y){
+    pointsArr << QPointF(x, y);
+}
+
+void Plot::drawLine(QColor color){
+    QwtPlotCurve *curvePoints;
+    curvePoints = new QwtPlotCurve();
+    curvePoints->setPen(color);
+    curvePoints->setSamples(pointsArr);
+    curvePoints->attach(this);
+    this->replot();
+    pointsArr.clear();
+}
+
+void Plot::drawPoints(){
+    QwtPlotCurve *curvePoints;
+    curvePoints = new QwtPlotCurve();
+    curvePoints->setPen(Qt::green);
+    curvePoints->setSamples(pointsArr);
+    curvePoints->attach(this);
+    this->replot();
+}
+
 void Plot::clear()
 {
+    QwtPlotGrid *grid;
     this->detachItems();
+    pointsArr.clear();
+
+    //  ...a horizontal line at y = 1...
+    QwtPlotMarker *mY1 = new QwtPlotMarker();
+    mY1->setLabel( QString::fromLatin1( "y = 1" ) );
+    mY1->setLabelAlignment( Qt::AlignRight | Qt::AlignTop );
+    mY1->setLineStyle( QwtPlotMarker::HLine );
+    mY1->setYValue( 1.0 );
+    mY1->setLinePen(Qt::black, 1, Qt::DashLine);
+    mY1->attach( this );
 
     QwtPlotMarker *mY = new QwtPlotMarker();
     mY->setLabel( QString::fromLatin1( "y = 0" ) );
@@ -193,13 +226,19 @@ void Plot::clear()
     mX->setLinePen( Qt::black, 0, Qt::DashDotLine );
     mX->setXValue( 0 );
     mX->attach( this );
+
+    grid = new QwtPlotGrid;
+    grid->enableXMin(true);
+    grid->setMajorPen(QPen(Qt::black,0,Qt::DotLine));
+    grid->setMinorPen(QPen(Qt::gray,0,Qt::DotLine));
+    grid->attach(this);
 }
 
 void Plot::drawGauss(double m, double a, int type, int i)
 {
     // Insert new curves
     int j;
-    QwtPlotCurve *curve = new QwtPlotCurve("y = gauss(x)");
+    QwtPlotCurve *curve = new QwtPlotCurve(QString("m: %1; a: %2").arg(m).arg(a));
     if (type == 0){
         curve->setData(new GaussData(m, a));
     }else if (type == 1){
@@ -248,9 +287,58 @@ void Plot::updateGradient()
     setPalette( pal );
 }
 
+void Plot::setBaseSet(QVector<double> bs){
+    QwtPlotMarker *mX = new QwtPlotMarker();
+    mX->setLabel( QString("x = %1").arg(bs[0]) );
+    mX->setLabelAlignment( Qt::AlignLeft | Qt::AlignBottom );
+    mX->setLabelOrientation( Qt::Vertical );
+    mX->setLineStyle( QwtPlotMarker::VLine );
+    mX->setLinePen( Qt::blue, 0, Qt::DashLine );
+    mX->setXValue( bs[0] );
+    mX->attach( this );
+
+    QwtPlotMarker *mX1 = new QwtPlotMarker();
+    mX1->setLabel( QString("x = %1").arg(bs[1]) );
+    mX1->setLabelAlignment( Qt::AlignLeft | Qt::AlignBottom );
+    mX1->setLabelOrientation( Qt::Vertical );
+    mX1->setLineStyle( QwtPlotMarker::VLine );
+    mX1->setLinePen( Qt::blue, 0, Qt::DashLine );
+    mX1->setXValue( bs[1] );
+    mX1->attach( this );
+
+    setAxisScale( xBottom, bs[0] - 0.5, bs[1] + 0.5);
+    QRectF rect(QPointF(bs[0] - 0.5,1.1),QPointF(bs[1] + 0.5,0));
+    zoom->setZoomBase(rect);
+    this->replot();
+}
+
+void Plot::drawVLine(double x){
+    QwtPlotMarker *mX = new QwtPlotMarker();
+    mX->setLabel( QString("x = %1").arg(x));
+    mX->setLabelAlignment( Qt::AlignLeft | Qt::AlignBottom );
+    mX->setLabelOrientation( Qt::Vertical );
+    mX->setLineStyle( QwtPlotMarker::VLine );
+    mX->setLinePen( Qt::red, 0, Qt::DashLine );
+    mX->setXValue( x );
+    mX->attach( this );
+
+    QPolygonF points;
+    QwtPlotCurve *curve;
+
+    curve = new QwtPlotCurve();
+    curve->setItemAttribute(QwtPlotItem::Legend, false);
+    curve->setStyle( QwtPlotCurve::Dots );
+    points << QPointF(x, 0);
+    curve->setSamples(points);
+    curve->attach(this);
+    this->replot();
+}
+
+/*
 void Plot::resizeEvent( QResizeEvent *event )
 {
     QwtPlot::resizeEvent( event );
     // Qt 4.7.1: QGradient::StretchToDeviceMode is buggy on X11
     updateGradient();
 }
+*/

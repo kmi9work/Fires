@@ -1,0 +1,927 @@
+#LyX file created by tex2lyx 2.0.7
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\paperfontsize default
+\spacing single
+\use_hyperref 0
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 0
+\use_mathdots 0
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% ÐÐ»Ð¾Ð±Ð°Ð»ÑÐ½ÑÐµ Ð¿Ð°ÑÐ°Ð¼ÐµÑÑÑ
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage[T2A]{fontenc}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% ÐºÐ¸ÑÐ¸Ð»Ð»Ð¸ÑÐµÑÐºÐ¸Ð¹ Ð½Ð°Ð±Ð¾Ñ ÑÐ¸Ð¼Ð²Ð¾Ð»Ð¾Ð²
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage{cmap}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% ÑÑÑÑÐºÐ¸Ðµ Ð±ÑÐºÐ²Ñ Ð² Ð¿Ð¾Ð¸ÑÐºÐµ PDF
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage[utf8]{inputenc}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage[english, russian]{babel}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% Ð½Ð°ÑÑÑÐ¾Ð¹ÐºÐ¸ Ð´Ð»Ñ ÑÑÑÑÐºÐ¾Ð¹ ÑÐ¸Ð¿Ð¾Ð³ÑÐ°ÑÐ¸ÐºÐ¸ Ð¸ Ð¿ÐµÑÐµÐ½Ð¾ÑÐ¾Ð²
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage{fullpage, anysize}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%http://texdoc.net/texmf-dist/doc/latex/preprint/fullpage.pdf
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Full page with small margins. 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage{verbatim}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Package to display text as in editor.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+usepackage{minitoc} 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage{mathtext}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%maybe without l. Russian letters in math
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage{graphicx}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage{caption2}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Some new ways to make caption
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage{amssymb,amsmath}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%American mathematic styles.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage{hhline}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Complex tables making
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%texnames - Display TeX.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%subfigure 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+usepackage{multicol, wrapfig}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%multi column text and wrap images.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset FormulaMacro
+\renewcommand{\captionlabeldelim}{.}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%doesn't work in caption package.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\backslash
+sloppy
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% This declaration makes TeX less fussy about line breaking. This can prevent overfull boxes, but may leave too much space between words.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+raggedbottom
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Makes all pages the height of the text on that page. No extra vertical space is added.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset FormulaMacro
+\newcommand{\limp}{\Rightarrow}
+\end_inset
+
+ 
+\begin_inset FormulaMacro
+\newcommand{\leqs}{=}
+\end_inset
+
+ 
+\begin_inset FormulaMacro
+\newcommand{\lors}{\|}
+\end_inset
+
+ 
+\begin_inset FormulaMacro
+\newcommand{\lands}{\&\&}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% ÐÐ¸Ð±Ð»Ð¸Ð¾Ð³ÑÐ°ÑÐ¸Ñ: Ð¾Ð±ÑÑÐ½ÑÐ¹ ÑÐ°Ð·Ð¼ÐµÑ!
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+makeatletter
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+renewenvironment{thebibliography}[1]{%
+\end_layout
+
+\begin_layout Standard
+
+  
+\backslash
+@xp
+\backslash
+section
+\backslash
+@xp*
+\backslash
+@xp{
+\backslash
+bibname}%
+\end_layout
+
+\begin_layout Standard
+
+  
+\backslash
+normalfont
+\backslash
+labelsep .5em
+\backslash
+relax
+\end_layout
+
+\begin_layout Standard
+
+  
+\backslash
+renewcommand
+\backslash
+theenumiv{
+\backslash
+arabic{enumiv}}
+\backslash
+let
+\backslash
+p@enumiv
+\backslash
+@empty
+\end_layout
+
+\begin_layout Standard
+
+  
+\backslash
+list{
+\backslash
+@biblabel{
+\backslash
+theenumiv}}{
+\backslash
+settowidth
+\backslash
+labelwidth{
+\backslash
+@biblabel{#1}}%
+\end_layout
+
+\begin_layout Standard
+
+    
+\backslash
+leftmargin
+\backslash
+labelwidth 
+\backslash
+advance
+\backslash
+leftmargin
+\backslash
+labelsep
+\end_layout
+
+\begin_layout Standard
+
+    
+\backslash
+usecounter{enumiv}}%
+\end_layout
+
+\begin_layout Standard
+
+  
+\backslash
+sloppy 
+\backslash
+clubpenalty
+\backslash
+@M 
+\backslash
+widowpenalty
+\backslash
+clubpenalty
+\end_layout
+
+\begin_layout Standard
+
+  
+\backslash
+sfcode`
+\backslash
+.=
+\backslash
+@m
+\end_layout
+
+\begin_layout Standard
+
+}{
+\backslash
+makeatother}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+endinput
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+begin{thebibliography}{2005}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+bibitem{texbook} D.~E.~Knuth. UML: ÐÑÐ½Ð¾Ð²Ñ. 2002. ÐÐµÑÐµÐ²Ð¾Ð´ Ñ Ð°Ð½Ð³Ð»Ð¸Ð¹ÑÐºÐ¾Ð³Ð¾: Ð¡ÐÐ. ~--- 192Ñ.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+bibitem{manual} B Cloves Carneiro Jr., and Rida Al Barazi. Beginning Rails 3. 2010. ~--- 403c.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+bibitem{roganov}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Ð.Ð. Ð Ð¾Ð³Ð°Ð½Ð¾Ð²
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%{
+\backslash
+em ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ ÐºÐ½Ð¸Ð³Ð¸.}~---
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Ð., ÐÐ·Ð´Ð°ÑÐµÐ»ÑÑÑÐ²Ð¾, 2001.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Ð§ÑÐ¾-Ð»Ð¸Ð±Ð¾ ÐµÑÑ.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+end{thebibliography}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+endinput
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

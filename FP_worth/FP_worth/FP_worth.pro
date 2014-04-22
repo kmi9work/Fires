@@ -1,10 +1,11 @@
-#-------------------------------------------------
+ #-------------------------------------------------
 #
 # Project created by QtCreator 2014-01-28T13:47:02
 #
 #-------------------------------------------------
 
 QT       += core gui
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -55,6 +56,13 @@ HEADERS  += fpworth.h \
 
 FORMS    += fpworth.ui
 
-OTHER_FILES +=
+OTHER_FILES += \
+    logo.png \
+    images/loading.gif
 
 CONFIG += qwt
+
+RESOURCES += \
+    resources.qrc
+
+

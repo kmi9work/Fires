@@ -7,15 +7,20 @@
 #include <qwt_legend.h>
 #include <qwt_point_data.h>
 #include <qwt_plot_canvas.h>
+#include <qwt_plot_grid.h>
 #include <qwt_plot_panner.h>
 #include <qwt_plot_magnifier.h>
 #include <qwt_text.h>
 #include <qwt_symbol.h>
 #include <qwt_math.h>
+#include <qwt_symbol.h>
+#include <qwt_plot_zoomer.h>
 #include <math.h>
 #include <QVector>
 #include "fptree.h"
 #include "fpworth.h"
+#include <QPen>
+#include <QString>
 
 
 class ArrowSymbol: public QwtSymbol
@@ -55,11 +60,20 @@ public:
     void drawGauss(double m, double a, int type, int i);
     void drawDots(QVector<QVector<struct numCluster> > data, double n, double k, int index, int size, int number);
     void clear();
+    void addPoint(double x, double y);
+    void drawPoints();
+    void setLegend(QString axis);
+    void drawLine(QColor color);
+    void setBaseSet(QVector<double> bs);
+    void drawVLine(double x);
 protected:
-    virtual void resizeEvent( QResizeEvent * );
+    //virtual void resizeEvent( QResizeEvent * );
 
 private:
     void updateGradient();
+    QPolygonF pointsArr;
+    QwtPlotCurve *curvePoints;
+    QwtPlotZoomer *zoom;
 };
 
 #endif // PLOT_H

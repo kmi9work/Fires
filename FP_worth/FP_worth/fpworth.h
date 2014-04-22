@@ -11,12 +11,20 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QFileDialog>
+#include <QClipboard>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QCompleter>
+#include <QMovie>
 #include <plot.h>
+#include <QtZlib/zlib.h>
 //#include "fptree.h"
 #include "candidatetree.h"
 #include "alglib/dataanalysis.h"
 #include "alglib/interpolation.h"
 #include "structs.h"
+
 
 /*class FPTree;
 
@@ -49,6 +57,8 @@ public:
     explicit FPWorth(QWidget *parent = 0);
     ~FPWorth();
 
+public slots:
+    void customMenuRequested(QPoint pos);
 private slots:
     void on_openFuzzyButton_clicked();
 
@@ -76,6 +86,47 @@ private slots:
 
     void on_clearPlotButton_clicked();
 
+    void on_addNormalButton_clicked();
+
+    void on_tableCombo_currentIndexChanged(int index);
+
+    void on_countRulesEdit_returnPressed();
+
+    void on_fire1Box_a_valueChanged(double arg1);
+
+    void on_fire1Box_b_valueChanged(double arg1);
+
+    void on_fire2Box_a_valueChanged(double arg1);
+
+    void on_fire2Box_b_valueChanged(double arg1);
+
+    void on_fire3Box_a_valueChanged(double arg1);
+
+    void on_fire3Box_b_valueChanged(double arg1);
+
+    void on_fire4Box_a_valueChanged(double arg1);
+
+    void on_fire4Box_b_valueChanged(double arg1);
+
+    void on_horizontalSlider_sliderMoved(int position);
+
+    void on_stepSpin_valueChanged(double arg1);
+
+    void on_pushButton_clicked();
+
+   // void on_fuzzyTable_customContextMenuRequested(const QPoint &pos);
+
+    void on_magicButton_clicked();
+
+    void onfinish(QNetworkReply *rep);
+
+    void onfinish2(QNetworkReply *rep);
+    void on_cityDataOpen_clicked();
+
+    void on_cityRp5_clicked();
+
+    void on_coordRp5_clicked();
+
 private:
     void printNumbers(QTableWidget *table, int max_rows, int add, int start_x, int start_y);
     void splitColumns();
@@ -85,52 +136,65 @@ private:
     void makeRules(int rows, int f);
 
     int cols; // number of lvars without Fires
-    int *rows;
-    int lvar_size; // Размер лингвистических переменных.
-    int ***numbers; // Обыкновенные числа
-    int **string_numbers; // Номера строк
+    QVector<int> rows;
+    QVector< QVector< QVector<int> > > numbers; // Обыкновенные числа
+    //QVector< QVector<int> > string_numbers;
     int global_i;
     int word_count;
     int maxWordSize;
     int *fires;
-    struct term *terms;
     QStringList names; // Имена термов
-    int first, last; // уровни, которые нужно вывести
+    QVector<int> firsts, lasts; // уровни, которые нужно вывести
+    int tableComboPrevIndex;
+    QVector<int> countRules;
 
     Ui::FPWorth *ui;
     //FPTree *rootFPTree;
     CandidateTree *rootCTree;
-    QVector< QVector<struct term> > words;
     //QVector<struct level> levels;
-    QVector<double> deltas; //minsupp
+    QVector< QVector<double> > deltas; //minsupp
     QVector<struct pattern> frequentPatterns;
     QVector<struct pattern> fpList;
-    QVector< QVector<struct numCluster> > data; // num and cluster all terms(with fire)
+    QVector< QVector<struct numCluster> > data; // num and cluster all terms(with fire) [max_rows][cols+1]
     QVector< QVector<int> > count_cluster; //Число элементов в кластере.[cols+1][lvar_size]
     QVector< QVector<double> > means; // ядра кластеров.
     QString sep; // separator
     int rulesListIndex_prev; // Подсветка правила
     QVector<int> fuzzyTableIndexes_prev; // Подсветка строк в нечётком множестве.
-    //bool byColumn(const double *col1, const double *col2);
+    QVector< QVector<double> > base_set;
+    QVector<int> term_counts; // Количество термов в каждой л. п.
+    int fire_count;
 
-    Plot *plot;
-    QHBoxLayout *layout;
+    Plot *plot, *nnpsPlot;
+    QHBoxLayout *layout, *layout_nnps;
     QVector< QVector<struct membershipFunction> > fs;
     double epsf; // Параметры аппроксимации.
     double epsx;
     alglib::ae_int_t maxits;
     double diffstep;
 
+    //parser
+    QVector<struct city> cities;
+    QMovie *movieRp5;
+
     void printQVector(QVector<QVector<struct numCluster> > v, int start_x, int start_y);
 
     QVector<QVector<membershipFunction> > approxGauss(QVector< QVector<struct numCluster> > data);
     QStringList readFileToStringList(QString fileName);
-    void makeCTree(int **numbers, int rows);
+    void makeCTree(QVector<QVector<int> > numbers, int rows);
     void findRules(int first, int last, int step);
-    void printRules(QVector<pattern> frequentPatterns);
+    void printRules(QVector<pattern> fpList);
+    void writeFromTableToDeltas();
+    void writeFromDeltasToTable(int index);
+    void nnpsCalc(QVector<double> xs, double *fire1, double *fire2, double *prod);
+    void drawTerm(int i, int j);
+
+    QNetworkAccessManager * mgr;
+    void getRp5Data(QDate dFrom, QDate dTo, QString id);
 };
 
 #endif // FPWORTH_H
+
 
 
 

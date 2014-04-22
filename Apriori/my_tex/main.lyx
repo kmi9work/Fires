@@ -1,0 +1,788 @@
+#LyX file created by tex2lyx 2.0.7
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+
+\input{settings}
+
+\title{ÐÐ¾Ð¸ÑÐº Ð°ÑÑÐ¾ÑÐ¸Ð°ÑÐ¸Ð²Ð½ÑÑ Ð¿ÑÐ°Ð²Ð¸Ð» Ð¾ÑÐµÐ½ÐºÐ¸ ÐºÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð° Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð² Ð¼Ð¾Ð´ÐµÐ»Ð¸ ANFIS.}
+\author{ÐÐ¾ÑÑÐµÐ½ÑÑÐº Ð.Ð.}
+
+\date{01-03-2014}
+
+
+\end_preamble
+\use_default_options false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\paperfontsize 12
+\spacing single
+\use_hyperref 0
+\papersize a4paper
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 0
+\use_mathdots 0
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+
+ÐÐ²ÐµÐ´ÐµÐ½Ð¸Ðµ
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% ÐÑÐ¾Ð³Ð½Ð¾Ð· Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð¾Ð¿Ð°ÑÐ½Ð¾Ð¹ Ð¾Ð±ÑÑÐ°Ð½Ð¾Ð²ÐºÐ¸: http://www.rosleshoz.gov.ru/forest_fires/prediction
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% http://www.rosleshoz.gov.ru/forest_fires/prediction ÐºÐ»Ð°ÑÑ Ð¿ÑÐ¸ÑÐ¾Ð´Ð½Ð¾Ð¹ Ð¿Ð¾Ð¶Ð°ÑÐ½Ð¾Ð¹ Ð¾Ð¿Ð°ÑÐ½Ð¾ÑÑÐ¸ Ð² Ð»ÐµÑÐ°Ñ Ð² Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÐ¸ Ð¾Ñ ÑÑÐ»Ð¾Ð²Ð¸Ð¹ Ð¿Ð¾Ð³Ð¾Ð´Ñ
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Ð¢ÐµÐ¼Ð° Ð´Ð¾ÐºÐ»Ð°Ð´Ð°: ÐÐ¾ÑÑÑÐ¾ÐµÐ½Ð¸Ðµ Ð°ÑÑÐ¾ÑÐ¸Ð°ÑÐ¸Ð²Ð½ÑÑ Ð¿ÑÐ°Ð²Ð¸Ð», Ð²ÑÑÐ°Ð¶Ð°ÑÑÐ¸Ñ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÑ ÐºÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð° Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð¾Ñ Ð¿Ð¾Ð³Ð¾Ð´Ð½ÑÑ ÑÑÐ»Ð¾Ð²Ð¸Ð¹.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Ð¦ÐµÐ»Ñ: Ð¡Ð½Ð¸Ð¶ÐµÐ½Ð¸Ðµ ÑÐ¸ÑÐºÐ¾Ð² Ð¸ ÑÐ¼ÑÐ³ÑÐµÐ½Ð¸Ðµ Ð¿Ð¾ÑÐ»ÐµÐ´ÑÑÐ²Ð¸Ð¹ Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð².
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%ÐÐ°Ð´Ð°ÑÐ°: Ð Ð°Ð·ÑÐ°Ð±Ð¾ÑÐºÐ° ÑÐ¿ÐµÑÐ¸Ð°Ð»Ð¸Ð·Ð¸ÑÐ¾Ð²Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð¿ÑÐ¾Ð³ÑÐ°Ð¼Ð¼Ð½Ð¾Ð³Ð¾ Ð¾Ð±ÐµÑÐ¿ÐµÑÐµÐ½Ð¸Ñ Ð´Ð»Ñ Ð½Ð°ÑÐ¾Ð¶Ð´ÐµÐ½Ð¸Ñ Ð°ÑÑÐ¾ÑÐ¸Ð°ÑÐ¸Ð²Ð½ÑÑ Ð¿ÑÐ°Ð²Ð¸Ð», Ð²ÑÑÐ°Ð¶Ð°ÑÑÐ¸Ñ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÑ ÐºÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð° Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð¾Ñ Ð¿Ð¾Ð³Ð¾Ð´Ð½ÑÑ ÑÑÐ»Ð¾Ð²Ð¸Ð¹ Ð² ÑÑÐµÐ´Ðµ ÑÐ°Ð·ÑÐ°Ð±Ð¾ÑÐºÐ¸ Qt.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%ÐÐ±ÑÐµÐºÑ: ÐÐ¸Ð½Ð°Ð¼Ð¸ÐºÐ° Ð²Ð¾Ð·Ð½Ð¸ÐºÐ½Ð¾Ð²ÐµÐ½Ð¸Ñ Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð².
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%ÐÑÐµÐ´Ð¼ÐµÑ: ÐÐ°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÑ Ð²Ð¾Ð·Ð½Ð¸ÐºÐ½Ð¾Ð²ÐµÐ½Ð¸Ñ Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð¾Ñ Ð¿Ð¾Ð³Ð¾Ð´Ð½ÑÑ ÑÑÐ»Ð¾Ð²Ð¸Ð¹.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%ÐÐµÑÐ¾Ð´: ÐÐ°ÑÐµÐ¼Ð°ÑÐ¸ÑÐµÑÐºÐ¾Ðµ Ð¼Ð¾Ð´ÐµÐ»Ð¸ÑÐ¾Ð²Ð°Ð½Ð¸Ðµ Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ð½Ð° Ð½ÐµÑÑÑÐºÐ¾Ð¹ Ð»Ð¾Ð³Ð¸ÐºÐµ.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+Ð Ð¾ÑÑÐ¸Ñ Ð¿Ð¾ Ð¿ÑÐ°Ð²Ñ ÑÑÐ¸ÑÐ°ÐµÑÑÑ Ð»ÐµÑÐ½Ð¾Ð¹ Ð´ÐµÑÐ¶Ð°Ð²Ð¾Ð¹, Ð½Ð° Ð½ÐµÑ Ð¿ÑÐ¸ÑÐ¾Ð´Ð¸ÑÑÑ 1/5 ÑÐ°ÑÑÑ Ð²ÑÐµÑ Ð»ÐµÑÐ¾Ð² Ð¼Ð¸ÑÐ°, 1/2 ÑÐ°ÑÑÑ Ð²ÑÐµÑ ÑÐ²Ð¾Ð¹Ð½ÑÑ Ð»ÐµÑÐ¾Ð², Ð»ÐµÑÐ° Ð·Ð°Ð½Ð¸Ð¼Ð°ÑÑ 
+\begin_inset space ~
+
+\end_inset
+
+50% Ð²ÑÐµÐ¹ Ð¿Ð»Ð¾ÑÐ°Ð´Ð¸ ÑÑÑÐ°Ð½Ñ Ð¸ ÑÐ¾ÑÑÐ°Ð²Ð»ÑÑÑ 1,2 Ð¼Ð»ÑÐ´. Ð³Ð°.
+\end_layout
+
+\begin_layout Standard
+
+ÐÐ° ÑÐµÑÑÐ¸ÑÐ¾ÑÐ¸Ð¸ Ð»ÐµÑÐ½Ð¾Ð³Ð¾ ÑÐ¾Ð½Ð´Ð° Ð Ð¾ÑÑÐ¸Ð¸ ÐµÐ¶ÐµÐ³Ð¾Ð´Ð½Ð¾ ÑÐµÐ³Ð¸ÑÑÑÐ¸ÑÑÐµÑÑÑ Ð¾Ñ 10 Ð´Ð¾ 35 ÑÑÑ. Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð², Ð¾ÑÐ²Ð°ÑÑÐ²Ð°ÑÑÐ¸Ñ Ð¿Ð»Ð¾ÑÐ°Ð´Ð¸ Ð¾Ñ 0,5 Ð´Ð¾ 2,5 Ð¼Ð»Ð½. Ð³Ð°. Ð¡ ÑÑÐµÑÐ¾Ð¼ Ð³Ð¾ÑÐ¸Ð¼Ð¾ÑÑÐ¸ Ð¾Ð³ÑÐ¾Ð¼Ð½Ð¾Ð³Ð¾ ÐºÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð° Ð»ÐµÑÐ¾Ð² Ð½Ð° Ð½ÐµÐ¾ÑÑÐ°Ð½ÑÐµÐ¼ÑÑ Ð¸ ÑÐ¿Ð¸Ð·Ð¾Ð´Ð¸ÑÐµÑÐºÐ¸ Ð¾ÑÑÐ°Ð½ÑÐµÐ¼ÑÑ ÑÐµÑÑÐ¸ÑÐ¾ÑÐ¸ÑÑ ÑÐµÐ²ÐµÑÐ½ÑÑ ÑÐ°Ð¹Ð¾Ð½Ð¾Ð² Ð¡Ð¸Ð±Ð¸ÑÐ¸ Ð¸ ÐÐ°Ð»ÑÐ½ÐµÐ³Ð¾ ÐÐ¾ÑÑÐ¾ÐºÐ° Ð¾Ð±ÑÐ°Ñ Ð²ÐµÐ»Ð¸ÑÐ¸Ð½Ð° Ð¿ÑÐ¾Ð¹Ð´ÐµÐ½Ð½Ð¾Ð¹ Ð¾Ð³Ð½ÐµÐ¼ Ð¿Ð»Ð¾ÑÐ°Ð´Ð¸ ÑÐ¾ÑÑÐ°Ð²Ð»ÑÐµÑ Ð¾Ñ 2,0 Ð´Ð¾ 5,5 Ð¼Ð»Ð½. Ð³Ð°.
+\end_layout
+
+\begin_layout Standard
+
+ÐÑÐ¸ ÑÑÐ¾Ð¼ ÑÑÐµÑÐ± Ð¾Ñ Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð² 2013 Ð³Ð¾Ð´Ñ ÑÐ¾ÑÑÐ°Ð²Ð¸Ð» Ð¿Ð¾ÑÑÐ´ÐºÐ° 20 Ð¼Ð»ÑÐ´ ÑÑÐ±Ð»ÐµÐ¹.
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Ð£ÑÐµÑÐ± Ð¾Ñ Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð² 2013 Ð³Ð¾Ð´Ñ Ð½Ð° ÑÐµÑÑÐ¸ÑÐ¾ÑÐ¸Ð¸ Ð Ð¾ÑÑÐ¸Ð¸ ÑÐ¾ÑÑÐ°Ð²Ð¸Ð» 20 Ð¼Ð¸Ð»Ð»Ð¸Ð¾Ð½Ð¾Ð² ÑÑÐ±Ð»ÐµÐ¹
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%Ð² 2013 Ð³Ð¾Ð´Ñ Ð¿Ð»Ð¾ÑÐ°Ð´Ñ Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð² Ð Ð¾ÑÑÐ¸Ð¸ ÑÐ¼ÐµÐ½ÑÑÐ¸Ð»Ð°ÑÑ Ð¿Ð¾ ÑÑÐ°Ð²Ð½ÐµÐ½Ð¸Ñ Ñ Ð¿ÑÐ¾ÑÐ»ÑÐ¼ Ð³Ð¾Ð´Ð¾Ð¼ Ð¸ ÑÐ¾ÑÑÐ°Ð²Ð¸Ð»Ð° 1,4 Ð¼Ð¸Ð»Ð»Ð¸Ð¾Ð½Ð° Ð³ÐµÐºÑÐ°ÑÐ¾Ð².
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%%Ð ÐÐ ÐÐ¾Ð²Ð¾ÑÑÐ¸ http://ria.ru/eco_news/20131213/983924582.html#ixzz2usMksJpD
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%ÑÑÐµÑÐ± Ð¾Ñ Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð² 2013 Ð³Ð¾Ð´Ñ ÑÐ¾ÑÑÐ°Ð²Ð¸Ð» Ð¿Ð¾ÑÑÐ´ÐºÐ° 20 Ð¼Ð»ÑÐ´ ÑÑÐ±Ð»ÐµÐ¹
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%%ÐÐ¾Ð´ÑÐ¾Ð±Ð½Ð¾ÑÑÐ¸: http://www.regnum.ru/news/1745253.html#ixzz2usNpw0dp 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%ÐÐ°Ð½Ð½ÑÐµ ÑÐ°Ð¹ÑÐ° ÐÐ§Ð¡ ÐÑÑÐ¼Ð¾Ð¹ Ð¼Ð°ÑÐµÑÐ¸Ð°Ð»ÑÐ½ÑÐ¹ ÑÑÐµÑÐ± Ð¾Ñ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð², ÑÑÑ. ÑÑÐ±. (Ð² ÑÐµÐ»ÑÑ) 8367611
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%% http://www.gks.ru/free_doc/new_site/business/sx/les2.htm
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+
+ÐÐ¾ÑÑÐ°Ð½Ð¾Ð²ÐºÐ° Ð·Ð°Ð´Ð°ÑÐ¸
+\end_layout
+
+\begin_layout Standard
+
+Ð¢Ð¾ÑÐ½ÑÐ¹ Ð¿ÑÐ¾Ð³Ð½Ð¾Ð· ÐºÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð° Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð² ÑÐµÐ³Ð¸Ð¾Ð½Ðµ Ð¿Ð¾Ð·Ð²Ð¾Ð»ÑÐµÑ ÑÐ½Ð¸Ð·Ð¸ÑÑ ÐºÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð¾ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð², Ð° ÑÐ°ÐºÐ¶Ðµ ÑÑÐµÑÐ±, Ð½Ð°Ð½Ð¾ÑÐ¸Ð¼ÑÐ¹ Ð² ÑÐµÐ·ÑÐ»ÑÑÐ°ÑÐµ Ð¸Ñ Ð²Ð¾Ð·Ð½Ð¸ÐºÐ½Ð¾Ð²ÐµÐ½Ð¸Ñ. ÐÑÑÑÐ´Ð° Ð²ÑÑÐµÐºÐ°ÐµÑ ÑÐµÐ»Ñ Ð´Ð°Ð½Ð½Ð¾Ð¹ ÑÐ°Ð±Ð¾ÑÑ
+\begin_inset space ~
+
+\end_inset
+
+--- ÑÐ½Ð¸Ð·Ð¸ÑÑ ÑÐ¸ÑÐºÐ¸ Ð¸ ÑÐ¼ÑÐ³ÑÐ¸ÑÑ Ð¿Ð¾ÑÐ»ÐµÐ´ÑÑÐ²Ð¸Ñ Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð². ÐÐ±ÑÐµÐºÑÐ¾Ð¼ Ð¸ÑÑÐ»ÐµÐ´Ð¾Ð²Ð°Ð½Ð¸Ñ ÑÐ²Ð»ÑÐµÑÑÑ Ð´Ð¸Ð½Ð°Ð¼Ð¸ÐºÐ° Ð²Ð¾Ð·Ð½Ð¸ÐºÐ½Ð¾Ð²ÐµÐ½Ð¸Ñ Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð² ÑÐ°ÑÑÐ¼Ð°ÑÑÐ¸Ð²Ð°ÐµÐ¼Ð¾Ð¼ ÑÐµÐ³Ð¸Ð¾Ð½Ðµ. ÐÑÐµÐ´Ð¼ÐµÑÐ¾Ð¼
+\begin_inset space ~
+
+\end_inset
+
+--- Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÑ Ð²Ð¾Ð·Ð½Ð¸ÐºÐ½Ð¾Ð²ÐµÐ½Ð¸Ñ Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð¾Ñ Ð¿Ð¾Ð³Ð¾Ð´Ð½ÑÑ ÑÑÐ»Ð¾Ð²Ð¸Ð¹. ÐÐ»Ñ Ð´Ð¾ÑÑÐ¸Ð¶ÐµÐ½Ð¸Ñ ÑÐµÐ»Ð¸, Ð¿Ð¾ÑÑÐ°Ð²Ð»ÐµÐ½Ð° Ð·Ð°Ð´Ð°ÑÐ° ÑÐ°Ð·ÑÐ°Ð±Ð¾ÑÐºÐ¸ ÑÐ¿ÐµÑÐ¸Ð°Ð»Ð¸Ð·Ð¸ÑÐ¾Ð²Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð¿ÑÐ¾Ð³ÑÐ°Ð¼Ð¼Ð½Ð¾Ð³Ð¾ Ð¾Ð±ÐµÑÐ¿ÐµÑÐµÐ½Ð¸Ñ Ð´Ð»Ñ Ð½Ð°ÑÐ¾Ð¶Ð´ÐµÐ½Ð¸Ñ Ð°ÑÑÐ¾ÑÐ¸Ð°ÑÐ¸Ð²Ð½ÑÑ Ð¿ÑÐ°Ð²Ð¸Ð» Ð²ÑÑÐ°Ð¶ÐµÐ½Ð¸Ñ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÐ¸ ÐºÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð° Ð»ÐµÑÐ½ÑÑ Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð² Ð¾Ñ Ð¿Ð¾Ð³Ð¾Ð´Ð½ÑÑ ÑÑÐ»Ð¾Ð²Ð¸Ð¹ Ð² ÑÑÐµÐ´Ðµ ÑÐ°Ð·ÑÐ°Ð±Ð¾ÑÐºÐ¸ Qt. ÐÐµÑÐ¾Ð´Ð¾Ð¼, Ñ Ð¿Ð¾Ð¼Ð¾ÑÑÑ ÐºÐ¾ÑÐ¾ÑÐ¾Ð³Ð¾ Ð¿ÑÐ¾Ð¸Ð·Ð²Ð¾Ð´Ð¸ÑÑÑ ÑÐ°Ð·ÑÐ°Ð±Ð¾ÑÐºÐ°, ÑÐ²Ð»ÑÐµÑÑÑ Ð¼Ð°ÑÐµÐ¼Ð°ÑÐ¸ÑÐµÑÐºÐ¾Ðµ Ð¼Ð¾Ð´ÐµÐ»Ð¸ÑÐ¾Ð²Ð°Ð½Ð¸Ðµ, Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ð½Ð° Ð½ÐµÑÑÑÐºÐ¾Ð¹ Ð»Ð¾Ð³Ð¸ÐºÐµ.
+\end_layout
+
+\begin_layout Standard
+
+ÐÑÐµÐ²Ð¸Ð´Ð½Ð¾, ÑÑÐ¾ Ð³Ð¾ÑÐ¸Ð¼Ð¾ÑÑÑ Ð»ÐµÑÐ¾Ð² Ð² Ð±Ð¾Ð»ÑÑÐ¾Ð¹ ÑÑÐµÐ¿ÐµÐ½Ð¸ Ð·Ð°Ð²Ð¸ÑÐ¸Ñ Ð¾Ñ ÑÐµÐ¼Ð¿ÐµÑÐ°ÑÑÑÑ Ð¸ ÑÑÑÐ¾ÑÑÐ¸ Ð²Ð¾Ð·Ð´ÑÑÐ° (Ð´ÐµÑÐ¸ÑÐ¸ÑÐ° Ð²Ð»Ð°Ð¶Ð½Ð¾ÑÑÐ¸): ÑÐµÐ¼ Ð²ÑÑÐµ ÑÐµÐ¼Ð¿ÐµÑÐ°ÑÑÑÐ° Ð¸ ÑÑÑÐ¾ÑÑÑ Ð²Ð¾Ð·Ð´ÑÑÐ°, ÑÐµÐ¼ Ð±Ð¾Ð»ÑÑÐµ Ð³Ð¾ÑÐ¸Ð¼Ð¾ÑÑÑ Ð¸ Ð½Ð°Ð¾Ð±Ð¾ÑÐ¾Ñ. Ð¢Ð°Ðº Ð¶Ðµ Ð¾ÑÐµÐ²Ð¸Ð´Ð½Ð¾ Ð¸ ÑÐ¾, ÑÑÐ¾ Ð½Ð° Ð¿Ð¾Ð¶Ð°ÑÐ¾Ð¾Ð¿Ð°ÑÐ½ÑÑ Ð¾Ð±ÑÑÐ°Ð½Ð¾Ð²ÐºÑ Ð²Ð»Ð¸ÑÐµÑ ÑÐºÐ¾ÑÐ¾ÑÑÑ Ð²ÐµÑÑÐ° Ð¸ ÐºÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð¾ Ð¾ÑÐ°Ð´ÐºÐ¾Ð².
+\end_layout
+
+\begin_layout Standard
+
+ÐÐ»Ñ Ð²ÑÑÐ²Ð»ÐµÐ½Ð¸Ñ ÑÑÐ¾Ð³Ð¾ Ð²Ð»Ð¸ÑÐ½Ð¸Ñ Ð¸ÑÐ¿Ð¾Ð»ÑÐ·ÑÐµÑÑÑ Ð¼Ð¾Ð´ÐµÐ»Ñ ÐÐµÐ¹ÑÐ¾Ð½Ð½Ð¾Ð¹ ÐÐµÑÑÑÐºÐ¾Ð¹ ÐÑÐ¾Ð´ÑÐºÑÐ¸Ð¾Ð½Ð½Ð¾Ð¹ Ð¡ÐµÑÐ¸(ÐÐÐÐ¡) ANFIS, ÑÐµÐ°Ð»Ð¸Ð·ÑÑÑÐ°Ñ Ð°Ð»Ð³Ð¾ÑÐ¸ÑÐ¼ Ð½ÐµÑÑÑÐºÐ¾Ð³Ð¾ Ð²ÑÐ²Ð¾Ð´Ð° Ð¦ÑÐºÐ°Ð¼Ð¾ÑÐ¾.
+\end_layout
+
+\begin_layout Standard
+
+ÐÐÐÐ¡ ANFIS ÑÑÐ¾ 5-ÑÐ»Ð¾Ð¹Ð½Ð°Ñ Ð½ÐµÐ¹ÑÐ¾Ð½Ð½Ð°Ñ ÑÐµÑÑ, ÐºÐ¾ÑÐ¾ÑÐ¾Ð¹ Ð½Ð° Ð²ÑÐ¾Ð´ Ð¿Ð¾ÑÑÑÐ¿Ð°ÑÑ ÑÐ¸ÑÐ»ÐµÐ½Ð½ÑÐµ Ð·Ð½Ð°ÑÐµÐ½Ð¸Ñ Ð¿Ð°ÑÐ°Ð¼ÐµÑÑÐ¾Ð², Ð° Ð½Ð° Ð²ÑÑÐ¾Ð´Ðµ Ð¿Ð¾Ð»ÑÑÐ°ÐµÑÑÑ ÑÐµÐ·ÑÐ»ÑÑÐ°Ñ Ð½ÐµÑÑÑÐºÐ¾Ð³Ð¾ Ð²ÑÐ²Ð¾Ð´Ð° (Ð Ð¸Ñ. 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "anfis_png"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\align center
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 1
+width "100text%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+
+\begin_layout Plain Layout
+
+
+\begin_inset Graphics 
+	filename anfis.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+captionof
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+{
+\end_layout
+
+\end_inset
+
+figure
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "anfis_png"
+
+\end_inset
+
+ ÐÐµÐ¹ÑÐ¾Ð½Ð½Ð°Ñ Ð½ÐµÑÑÑÐºÐ°Ñ Ð¿ÑÐ¾Ð´ÑÐºÑÐ¸Ð¾Ð½Ð½Ð°Ñ ÑÐµÑÑ ANFIS
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+ÐÐ¾Ð´ÑÐ¾Ð±Ð½Ð¾Ðµ ÑÐ°ÑÑÐ¼Ð¾ÑÑÐµÐ½Ð¸Ðµ ÑÐµÑÐ¸ Ð²ÑÑÐ¾Ð´Ð¸Ñ Ð·Ð° ÑÐ°Ð¼ÐºÐ¸ Ð¸ÑÑÐ»ÐµÐ´Ð¾Ð²Ð°Ð½Ð¸Ñ. ÐÐ°Ð½Ð½Ð°Ñ ÑÐ°Ð±Ð¾ÑÐ° Ð¿Ð¾ÑÐ²ÑÑÐµÐ½Ð° Ð¿Ð¾ÑÑÑÐ¾ÐµÐ½Ð¸Ñ Ð²ÑÐ¾ÑÐ¾Ð³Ð¾ ÑÐ»Ð¾Ñ ÐÐÐÐ¡, ÐºÐ¾ÑÐ¾ÑÑÐ¹ Ð¿ÑÐµÐ´ÑÑÐ°Ð²Ð»ÑÐµÑ Ð¸Ð· ÑÐµÐ±Ñ Ð½Ð°Ð±Ð¾Ñ Ð¿ÑÐ°Ð²Ð¸Ð» Ð½ÐµÑÑÑÐºÐ¾Ð³Ð¾ Ð²ÑÐ²Ð¾Ð´Ð°.
+\end_layout
+
+\begin_layout Standard
+
+ÐÑÐ°Ð²Ð¸Ð»Ð¾Ð¼ Ð½ÐµÑÑÑÐºÐ¾Ð³Ð¾ Ð»Ð¾Ð³Ð¸ÑÐµÑÐºÐ¾Ð³Ð¾ Ð²ÑÐ²Ð¾Ð´Ð° Ð½Ð°Ð·ÑÐ²Ð°ÐµÑÑÑ Ð¿ÑÐ°Ð²Ð¸Ð»Ð¾ Ð¿Ð¾Ð»ÑÑÐµÐ½Ð¸Ñ Ð·Ð°ÐºÐ»ÑÑÐµÐ½Ð¸Ñ Ð² Ð²Ð¸Ð´Ðµ Ð½ÐµÑÑÑÐºÐ¾Ð³Ð¾ Ð¼Ð½Ð¾Ð¶ÐµÑÑÐ²Ð°, ÑÐ¾Ð¾ÑÐ²ÐµÑÑÑÐ²ÑÑÑÐµÐ³Ð¾ ÑÐµÐºÑÑÐ¸Ð¼ Ð·Ð½Ð°ÑÐµÐ½Ð¸ÑÑ Ð²ÑÐ¾Ð´Ð¾Ð², Ñ Ð¸ÑÐ¿Ð¾Ð»ÑÐ·Ð¾Ð²Ð°Ð½Ð¸ÐµÐ¼ Ð½ÐµÑÐµÑÐºÐ¾Ð¹ Ð±Ð°Ð·Ñ Ð·Ð½Ð°Ð½Ð¸Ð¹ Ð¸ Ð½ÐµÑÐµÑÐºÐ¸Ñ Ð¾Ð¿ÐµÑÐ°ÑÐ¸Ð¹ Ð¸ Ð¾ÑÑÐ°Ð¶Ð°ÑÑÐµÐµ Ð½Ð°Ð¸Ð±Ð¾Ð»ÐµÐµ ÑÐ°ÑÐ¿ÑÐ¾ÑÑÑÐ°Ð½ÑÐ½Ð½ÑÐµ Ð·Ð°ÐºÐ¾Ð½Ð¾Ð¼ÐµÑÐ½Ð¾ÑÑÐ¸, ÑÐ²ÑÐ·ÑÐ²Ð°ÑÑÐ¸Ðµ Ð¿ÑÐµÐ´Ð¿Ð¾ÑÑÐ»ÐºÑ Ð¸ ÑÐµÐ·ÑÐ»ÑÑÐ°Ñ.
+\end_layout
+
+\begin_layout Standard
+
+ÐÐ»Ñ Ð½Ð°ÑÐ¾Ð¶Ð´ÐµÐ½Ð¸Ñ ÑÑÐ¸Ñ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÐµÐ¹ Ð±ÑÐ´ÐµÐ¼ Ð¸ÑÐ¿Ð¾Ð»ÑÐ·Ð¾Ð²Ð°ÑÑ Ð°Ð»Ð³Ð¾ÑÐ¸ÑÐ¼ Ð¸Ð½ÑÐµÐ»Ð»ÐµÐºÑÑÐ°Ð»ÑÐ½Ð¾Ð³Ð¾ Ð°Ð½Ð°Ð»Ð¸Ð·Ð° Ð´Ð°Ð½Ð½ÑÑ Apriori. ÐÐ°Ð½Ð½ÑÐ¹ Ð°Ð»Ð³Ð¾ÑÐ¸ÑÐ¼ Ð¿Ð¾Ð·Ð²Ð¾Ð»ÑÐµÑ Ð·Ð° Ð²ÑÐµÐ¼Ñ ÑÑÑÐµÑÑÐ²ÐµÐ½Ð½Ð¾ Ð¼ÐµÐ½ÑÑÐµÐµ, ÑÐµÐ¼ Ð¿Ð¾Ð»Ð½ÑÐ¹ Ð¿ÐµÑÐµÐ±Ð¾Ñ Ð½Ð°Ð¹ÑÐ¸ Ð² Ð±Ð°Ð·Ðµ Ð´Ð°Ð½Ð½ÑÑ Ð½Ð°Ð¸Ð±Ð¾Ð»ÐµÐµ ÑÐ°ÑÑÐ¾ Ð²ÑÑÑÐµÑÐ°ÑÑÐ¸ÐµÑÑ Ð½Ð°Ð±Ð¾ÑÑ.
+\end_layout
+
+\begin_layout Section
+
+ÐÐ»Ð³Ð¾ÑÐ¸ÑÐ¼ Apriori
+\end_layout
+
+\begin_layout Standard
+
+ÐÐ»Ð³Ð¾ÑÐ¸ÑÐ¼ Ð¿Ð¾ÑÑÑÐ¾ÐµÐ½ Ð½Ð° Ð¾ÑÐ½Ð¾Ð²Ðµ Ð¿ÑÐ¸Ð½ÑÐ¸Ð¿Ð° Ð°Ð½ÑÐ¸Ð¼Ð¾Ð½Ð¾ÑÐ¾Ð½Ð½Ð¾ÑÑÐ¸, ÐºÐ¾ÑÐ¾ÑÑÐ¹ Ð³Ð»Ð°ÑÐ¸Ñ, ÑÑÐ¾ Ð¿Ð¾Ð´Ð´ÐµÑÐ¶ÐºÐ° Ð½Ð°Ð±Ð¾ÑÐ° (Ñ.Ðµ. ÑÐ°ÑÑÐ¾ÑÐ°, Ñ ÐºÐ¾ÑÐ¾ÑÐ¾Ð¹ Ð¾Ð½ Ð²ÑÑÑÐµÑÐ°ÐµÑÑÑ Ð² Ð±Ð°Ð·Ðµ Ð´Ð°Ð½Ð½ÑÑ) Ñ ÑÐ²ÐµÐ»Ð¸ÑÐµÐ½Ð¸ÐµÐ¼ ÑÐ¸ÑÐ»Ð° ÑÐ»ÐµÐ¼ÐµÐ½ÑÐ¾Ð² Ð² Ð½ÑÐ¼ ÑÐ¼ÐµÐ½ÑÑÐ°ÐµÑÑÑ Ð¸Ð»Ð¸ Ð¾ÑÑÐ°ÑÑÑÑ Ð¿ÑÐµÐ¶Ð½ÐµÐ¹. ÐÑÑÐ¾Ð´Ñ Ð¸Ð· ÑÑÐ¾Ð³Ð¾ Ð½Ð° Ð¿ÐµÑÐ²Ð¾Ð¼ ÑÐ°Ð³Ðµ Ð°Ð»Ð³Ð¾ÑÐ¸ÑÐ¼Ð° Ð²ÑÑÐ¸ÑÐ»ÑÐµÑÑÑ Ð¿Ð¾Ð´Ð´ÐµÑÐ¶ÐºÐ° Ð²ÑÐµÑ Ð½Ð°Ð±Ð¾ÑÐ¾Ð² Ñ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑÐ½Ð¾Ð¹ Ð¿Ð¾Ð´Ð´ÐµÑÐ¶ÐºÐ¾Ð¹, Ñ.Ðµ. Ð½Ð°Ð±Ð¾ÑÐ¾Ð² ÐµÐ´Ð¸Ð½Ð¸ÑÐ½Ð¾Ð¹ Ð´Ð»Ð¸Ð½Ñ. Ð Ð´Ð»Ñ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ Ð¸Ð· ÑÐ»ÐµÐ¼ÐµÐ½ÑÐ¾Ð², Ð¿Ð¾Ð´Ð´ÐµÑÐ¶ÐºÐ° ÐºÐ¾ÑÐ¾ÑÐ¾Ð³Ð¾ Ð¿ÑÐµÐ²ÑÑÐ°ÐµÑ Ð¼Ð¸Ð½Ð¸Ð¼Ð°Ð»ÑÐ½ÑÐ¹ Ð¿Ð¾ÑÐ¾Ð³ ÑÐ¾Ð·Ð´Ð°ÑÑÑÑ Ð²ÐµÑÑÐ¸Ð½Ð° Ð´ÐµÑÐµÐ²Ð°. ÐÐ°Ð»ÑÑÐµ Ðº ÐºÐ°Ð¶Ð´Ð¾Ð¹ Ð²ÐµÑÑÐ¸Ð½Ðµ ÑÐµÐºÑÑÑÐ¸Ð²Ð½ÑÐ¼ Ð¾Ð±ÑÐ°Ð·Ð¾Ð¼ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÑÑÑÑ Ð²ÑÐµ ÑÐ»ÐµÐ¼ÐµÐ½ÑÑ ÑÐ¾Ð³Ð¾ Ð¶Ðµ ÑÑÐ¾Ð²Ð½Ñ Ð»ÐµÐ¶Ð°ÑÐ¸Ðµ Ð¿ÑÐ°Ð²ÐµÐµ Ð¸ Ð¿Ð¾Ð´Ð´ÐµÑÐ¶ÐºÐ° Ð½Ð°Ð±Ð¾ÑÐ°, ÑÐ¾ÑÑÐ°Ð²Ð»ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð¸Ð· Ð¿ÑÑÐ¸ Ð¾Ñ Ð²ÐµÑÑÐ¸Ð½Ñ Ð¸ Ð½Ð¾Ð²Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½ÑÐ° ÐºÐ¾ÑÐ¾ÑÑÑ, Ð²ÑÑÐµ ÑÑÑÐ°Ð½Ð¾Ð²Ð»ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð¿Ð¾ÑÐ¾Ð³Ð°. Ð¢Ð°ÐºÐ¸Ð¼ Ð¾Ð±ÑÐ°Ð·Ð¾Ð¼ Ð¿Ð¾Ð»ÑÑÐ°ÐµÑÑÑ Ð´ÐµÑÐµÐ²Ð¾ Ð½Ð°Ð¸Ð±Ð¾Ð»ÐµÐµ ÑÐ°ÑÑÑÑ Ð½Ð°Ð±Ð¾ÑÐ¾Ð²(Ð Ð¸Ñ. 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "apriori_tree_png"
+
+\end_inset
+
+), ÐºÐ¾ÑÐ¾ÑÑÐµ Ð¼Ð¾Ð¶Ð½Ð¾ Ð¿Ð¾Ð»ÑÑÐ¸ÑÑ, Ð¸ÑÐ¿Ð¾Ð»ÑÐ·ÑÑ Ð¾Ð±ÑÐ¾Ð´ Ð´ÐµÑÐµÐ²Ð° Ð² Ð³Ð»ÑÐ±Ð¸Ð½Ñ. ÐÑÑÐ¸ Ð¾Ñ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½ÑÐ° Ð´Ð¾ ÐºÐ¾ÑÐ½Ñ Ð´ÐµÑÐµÐ²Ð° ÑÐ²Ð»ÑÑÑÑÑ Ð¸ÑÐºÐ¾Ð¼ÑÐ¼Ð¸ Ð½Ð°Ð±Ð¾ÑÐ°Ð¼Ð¸.
+\end_layout
+
+\begin_layout Standard
+\align center
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 1
+width "100text%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+
+\begin_layout Plain Layout
+
+
+\begin_inset Graphics 
+	filename Apriori_Tree.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+captionof
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+{
+\end_layout
+
+\end_inset
+
+figure
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "apriori_tree_png"
+
+\end_inset
+
+ ÐÐµÑÐµÐ²Ð¾ ÑÐ°ÑÑÑÑ Ð½Ð°Ð±Ð¾ÑÐ¾Ð²
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+begin{figure}[h]
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%    
+\backslash
+centering
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%    
+\backslash
+includegraphics[width=1.0
+\backslash
+textwidth]{anfis.png} 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%    
+\backslash
+hfill
+\backslash
+hfill
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%    
+\backslash
+caption{ÐÐµÐ¹ÑÐ¾Ð½Ð½Ð°Ñ Ð½ÐµÑÑÑÐºÐ°Ñ Ð¿ÑÐ¾Ð´ÑÐºÑÐ¸Ð¾Ð½Ð½Ð°Ñ ÑÐµÑÑ ANFIS} 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%    
+\backslash
+label{anfis_png} 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+end{figure}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

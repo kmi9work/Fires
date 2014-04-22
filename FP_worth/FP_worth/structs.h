@@ -5,15 +5,23 @@
 #include <QVector>
 
 struct term{
-    int number;
+    int term_number;
+    int lp_number;
     int str_num;
     int support;
+};
+
+struct city{
+    QString name;
+    QString id;
+    double x;
+    double y;
 };
 
 struct pattern{
     int support;
     int count; // rows[k]
-    int cluster;
+    int cluster; // k (fire cluster)
     QVector<struct term> word;
     QVector<int> str_numbers;
 };
@@ -27,7 +35,7 @@ struct membershipFunction{
     double mu;
     double a;
     double k;
-    int type; // 0 - 1/1+exp() ???; 1 - Gauss func
+    int type; // 0 - Gauss func G; 1 - sigmoid right E, 2 sigmoid left NE
 };
 
 
